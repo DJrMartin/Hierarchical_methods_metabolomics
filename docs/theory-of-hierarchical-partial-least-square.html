@@ -336,7 +336,7 @@ the y-axis representing the accuracy of the hierarchical PLS-DA.</p>
 <span id="cb23-25"><a href="theory-of-hierarchical-partial-least-square.html#cb23-25" tabindex="-1"></a><span class="fu">plot</span>(res.accouracy.pls, res.accouracy.Hpls, <span class="at">xlab =</span> <span class="st">&quot;Accuracy of the classical PLS&quot;</span>, </span>
 <span id="cb23-26"><a href="theory-of-hierarchical-partial-least-square.html#cb23-26" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Accuracy of the hierarchical PLS&quot;</span>)</span>
 <span id="cb23-27"><a href="theory-of-hierarchical-partial-least-square.html#cb23-27" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/classic_vs_hierarchical_1-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls." class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> The model interpretability is higher in hierarchical PLS than classic PLS.<a href="theory-of-hierarchical-partial-least-square.html#the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls." class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -357,7 +357,7 @@ the y-axis representing the accuracy of the hierarchical PLS-DA.</p>
 <span id="cb24-9"><a href="theory-of-hierarchical-partial-least-square.html#cb24-9" tabindex="-1"></a><span class="fu">plot</span>(res.mb_pls<span class="sc">$</span>Lower_loadings<span class="sc">$</span>block1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ylim =</span>  <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">&quot;H-PLS&quot;</span>)</span>
 <span id="cb24-10"><a href="theory-of-hierarchical-partial-least-square.html#cb24-10" tabindex="-1"></a><span class="fu">points</span>(res.mb_pls<span class="sc">$</span>Lower_loadings<span class="sc">$</span>block2, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
 <span id="cb24-11"><a href="theory-of-hierarchical-partial-least-square.html#cb24-11" tabindex="-1"></a><span class="fu">symbols</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="at">circles =</span> <span class="fl">0.5</span>, <span class="at">inches =</span> <span class="cn">FALSE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/classic_vs_hierarchical_2-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

@@ -308,7 +308,7 @@ div.csl-indent {
 <span id="cb27-9"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-9" tabindex="-1"></a>       <span class="at">fill =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
 <span id="cb27-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;CMS-&quot;</span>, <span class="st">&quot;CMS+&quot;</span>),</span>
 <span id="cb27-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-11" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">15</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span><span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-17-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
 <blockquote>
 <p>The two individuals that appear as mild outliers mainly influence Dimension 2, not Dimension 1. Since the variable of interest (altitude) is primarily discriminated along Dimension 1, this is not problematic. However, if outliers were affecting Dimension 1, their data should be carefully examined.</p>
 </blockquote>
@@ -434,7 +434,7 @@ div.csl-indent {
 <span id="cb35-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-6" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="fu">c</span>(<span class="st">&quot;Negative</span><span class="sc">\n</span><span class="st">control&quot;</span>, <span class="st">&quot;H-PLSDA&quot;</span>), <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
 <span id="cb35-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-7" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="st">&quot;***&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
 <span id="cb35-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-8" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fl">0.8</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" alt="" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-20-1.png" alt="" width="384" style="display: block; margin: auto;" /></p>
 <p>The y-axis of this Figure represents model accuracy, reflecting the confidence that we can have in the presented results.</p>
 <p>An accuracy of 1 indicates perfect classification, whereas an accuracy close to 0.5 corresponds to random performance.</p>
 <p>A negative control using permuted altitude labels results in random accuracy (light grey box in the Figure).</p>
@@ -469,7 +469,7 @@ div.csl-indent {
 <span id="cb38-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>)</span>
 <span id="cb38-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
 <span id="cb38-12"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-12" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(DIM<span class="fl">.1</span>), <span class="at">y =</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fu">nrow</span>(DIM<span class="fl">.1</span>)), <span class="at">labels =</span> <span class="fu">sub</span>(<span class="st">&quot;_1&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">rownames</span>(DIM<span class="fl">.1</span>))[sens], <span class="at">xpd =</span> <span class="cn">NA</span>, <span class="at">srt =</span><span class="dv">45</span>, <span class="at">pos =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
