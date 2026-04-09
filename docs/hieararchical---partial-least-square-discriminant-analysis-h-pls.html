@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Hieararchical - Partial Least Square Discriminant Analysis (H-PLS) | An Example of Metabolomics Analysis</title>
+  <meta name="description" content="Chapter 4 Hieararchical - Partial Least Square Discriminant Analysis (H-PLS) | An Example of Metabolomics Analysis" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Hieararchical - Partial Least Square Discriminant Analysis (H-PLS) | An Example of Metabolomics Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Hieararchical - Partial Least Square Discriminant Analysis (H-PLS) | An Example of Metabolomics Analysis" />
+  
+  
+  
+
+<meta name="author" content="David MARTIN" />
+
+
+<meta name="date" content="2026-04-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="theory-of-hierarchical-partial-least-square.html"/>
+<link rel="next" href="random-forest-applied-to-multiblocks-optional.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metabolomics Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> R package</a></li>
+<li class="chapter" data-level="2" data-path="data-preprocessing.html"><a href="data-preprocessing.html"><i class="fa fa-check"></i><b>2</b> Data preprocessing</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#environment-setup"><i class="fa fa-check"></i><b>2.1</b> Environment setup</a></li>
+<li class="chapter" data-level="2.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#importing-data-and-metadata"><i class="fa fa-check"></i><b>2.2</b> Importing data and metadata</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#example"><i class="fa fa-check"></i><b>2.2.1</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#pathway-annotation-from-metabolomics-data"><i class="fa fa-check"></i><b>2.3</b> Pathway annotation from metabolomics data</a></li>
+<li class="chapter" data-level="2.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#mapping-metabolites-to-kegg-pathways"><i class="fa fa-check"></i><b>2.4</b> Mapping metabolites to KEGG pathways</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#limiting-pseudo-replication-optional-but-recommended"><i class="fa fa-check"></i><b>2.4.1</b> Limiting pseudo-replication (optional but recommended)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#identify-highly-duplicated-metabolites"><i class="fa fa-check"></i><b>2.4.2</b> Identify highly duplicated metabolites</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#redundancy-filtering-strategy"><i class="fa fa-check"></i><b>2.4.3</b> Redundancy filtering strategy</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#save-cleaned-data"><i class="fa fa-check"></i><b>2.4.4</b> Save cleaned data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html"><i class="fa fa-check"></i><b>3</b> Theory of Hierarchical Partial Least Square</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#why-used-h-mb-pls"><i class="fa fa-check"></i><b>3.1</b> Why used H-(MB)-PLS?</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-performances-between-classic-pls-and-hierarchical-pls-are-the-same."><i class="fa fa-check"></i><b>3.1.1</b> The model performances between classic PLS and hierarchical PLS are the same.</a></li>
+<li class="chapter" data-level="3.1.2" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls."><i class="fa fa-check"></i><b>3.1.2</b> The model interpretability is higher in hierarchical PLS than classic PLS.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><i class="fa fa-check"></i><b>4</b> Hieararchical - Partial Least Square Discriminant Analysis (H-PLS)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#import"><i class="fa fa-check"></i><b>4.1</b> Import</a></li>
+<li class="chapter" data-level="4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#defining-the-working-data-x-et-y"><i class="fa fa-check"></i><b>4.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#visualisation"><i class="fa fa-check"></i><b>4.3</b> Visualisation</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#individual-score-plot"><i class="fa fa-check"></i><b>4.3.1</b> Individual score plot</a></li>
+<li class="chapter" data-level="4.3.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#pathway-importances"><i class="fa fa-check"></i><b>4.3.2</b> Pathway importances</a></li>
+<li class="chapter" data-level="4.3.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#metabolites-importances"><i class="fa fa-check"></i><b>4.3.3</b> Metabolites importances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#validation-steps-of-the-h-plsda"><i class="fa fa-check"></i><b>4.4</b> Validation steps of the H-PLSDA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#r2"><i class="fa fa-check"></i><b>4.4.1</b> <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="4.4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cross-validation-procedure"><i class="fa fa-check"></i><b>4.4.2</b> Cross-validation procedure</a></li>
+<li class="chapter" data-level="4.4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#important-pathways"><i class="fa fa-check"></i><b>4.4.3</b> Important Pathways</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html"><i class="fa fa-check"></i><b>5</b> Random Forest applied to MultiBlocks (Optional)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#import-1"><i class="fa fa-check"></i><b>5.1</b> Import</a></li>
+<li class="chapter" data-level="5.2" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#defining-the-working-data-x-et-y-1"><i class="fa fa-check"></i><b>5.2</b> defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="5.3" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#random-forest-on-multiple-pathways"><i class="fa fa-check"></i><b>5.3</b> Random Forest on multiple pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html"><i class="fa fa-check"></i><b>6</b> Redundancy Analysis and Network</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#import-2"><i class="fa fa-check"></i><b>6.1</b> Import</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#defining-the-working-data-x-et-y-2"><i class="fa fa-check"></i><b>6.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#redundancy-analysis"><i class="fa fa-check"></i><b>6.3</b> Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.4" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#example-of-redundancy-analysis"><i class="fa fa-check"></i><b>6.4</b> Example of Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-between-sets-of-variables"><i class="fa fa-check"></i><b>6.5</b> Network between sets of variables</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-visualisation"><i class="fa fa-check"></i><b>6.5.1</b> Network visualisation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#the-intresting-rda"><i class="fa fa-check"></i><b>6.6</b> The intresting RDA</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html"><i class="fa fa-check"></i><b>7</b> Metabolite-focused statistical approaches</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#import-3"><i class="fa fa-check"></i><b>7.1</b> Import</a></li>
+<li class="chapter" data-level="7.2" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#defining-the-working-data-x-et-y-3"><i class="fa fa-check"></i><b>7.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="7.3" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#summary-of-significant-associations-barplot"><i class="fa fa-check"></i><b>7.3</b> Summary of significant associations (Barplot)</a></li>
+<li class="chapter" data-level="7.4" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#overlap-of-significant-metabolites-venn-diagram"><i class="fa fa-check"></i><b>7.4</b> Overlap of significant metabolites (Venn diagram)</a></li>
+<li class="chapter" data-level="7.5" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#stability-of-associations-bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>7.5</b> Stability of associations (Bootstrap confidence intervals)</a></li>
+<li class="chapter" data-level="7.6" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#interpretation"><i class="fa fa-check"></i><b>7.6</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/DJrMartin" target="blank">Voir le repo</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Example of Metabolomics Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hieararchical---partial-least-square-discriminant-analysis-h-pls" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Hieararchical - Partial Least Square Discriminant Analysis (H-PLS)<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#hieararchical---partial-least-square-discriminant-analysis-h-pls" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The objectives of this second chapter are:</p>
+<ol style="list-style-type: decimal">
+<li><p>To visualize the metabolite data matrix in a reduced space while accounting for pathway structure (as defined in Chapter 1).</p></li>
+<li><p>To identify the pathways that are the most discriminative of a functional state (i.e., clinical outputs).</p></li>
+</ol>
+<p>Here, the functional state refers to one of the environmental variables under study. In our case, we aim to determine which variations in plasma metabolites in humans are associated with altitude of residence.</p>
+<p>In this context, <span class="math inline">\(X\)</span> corresponds to plasma metabolomics data, and <span class="math inline">\(Y\)</span> corresponds to altitude of residence. In our study, altitude is a categorical variable with three levels: Lima, Puno, and La Rinconada (cities in Peru, located respectively at 0 m, 3,800 m, and 5,100 m above sea level).</p>
+<div id="import" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Import<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#import" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-1" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb25-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/rawdata_expedition_A.rda&quot;</span>) <span class="co"># Raw data structured as described in the previous chapter</span></span>
+<span id="cb25-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-3" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/cleandata_expedition_A.rda&quot;</span>) <span class="co"># Data mapped to KEGG (i.e., list of pathways with metabolites)</span></span>
+<span id="cb25-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-4" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-5" tabindex="-1"></a><span class="co"># Functions</span></span>
+<span id="cb25-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-6" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/hierarchical_creation.R&quot;</span>)</span>
+<span id="cb25-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb25-7" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/H_PLSDA.R&quot;</span>)</span></code></pre></div>
+</div>
+<div id="defining-the-working-data-x-et-y" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#defining-the-working-data-x-et-y" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this analysis, two sets of variables are defined. The matrix <span class="math inline">\(X\)</span> corresponds to metabolomic features grouped by biological pathways, while the matrix <span class="math inline">\(Y\)</span> contains clinical variables measured in the same individuals.</p>
+<p>Both matrices are aligned using a common set of sample identifiers to ensure that each row corresponds to the same individual across datasets. Missing values in <span class="math inline">\(Y\)</span> are handled by removing variables with excessive missingness.</p>
+<p>Clinical variables are further organized into predefined groups reflecting physiological functions. Additional covariates such as sampling location and clinical status are encoded and used for visualization purposes.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-1" tabindex="-1"></a><span class="do">## X - METABOLOME</span></span>
+<span id="cb26-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-2" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">lapply</span>(clean_data<span class="sc">$</span>Metabolites_pathways_no_redondancy<span class="sc">$</span>X_list, <span class="cf">function</span>(x) <span class="fu">t</span>(x))</span>
+<span id="cb26-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-3" tabindex="-1"></a>ID_in_X <span class="ot">=</span> <span class="fu">rownames</span>(X[[<span class="dv">1</span>]])</span>
+<span id="cb26-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-4" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-5" tabindex="-1"></a><span class="do">## Y - CLINICAL VARIABLES</span></span>
+<span id="cb26-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-6" tabindex="-1"></a>Y <span class="ot">=</span> data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]</span>
+<span id="cb26-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-8" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">factor</span>(Y<span class="sc">$</span><span class="st">`</span><span class="at">City of testing</span><span class="st">`</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Lima&quot;</span> ,<span class="st">&quot;Puno&quot;</span>, <span class="st">&quot;La Rinconada&quot;</span>)) <span class="do">## Altitude of residence</span></span>
+<span id="cb26-9"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-9" tabindex="-1"></a>col.Y <span class="ot">=</span> <span class="fu">factor</span>(y, <span class="fu">levels</span>(y), paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]) <span class="co"># Colors for plots</span></span>
+<span id="cb26-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-10" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-11" tabindex="-1"></a><span class="do">## CO-variates</span></span>
+<span id="cb26-12"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-12" tabindex="-1"></a>pch.CMS <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">factor</span>(Y<span class="sc">$</span><span class="st">`</span><span class="at">CMS groups</span><span class="st">`</span>,</span>
+<span id="cb26-13"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-13" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;No CMS&quot;</span>, <span class="st">&quot;Mild CMS&quot;</span>, <span class="st">&quot;Mod-Sev CMS&quot;</span>), <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">15</span>)) ))</span>
+<span id="cb26-14"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb26-14" tabindex="-1"></a>y.age <span class="ot">=</span> (Y<span class="sc">$</span>Age)</span></code></pre></div>
+</div>
+<div id="visualisation" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Visualisation<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#visualisation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="individual-score-plot" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Individual score plot<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#individual-score-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can then perform MB-PLS and visualize the individuals:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-1" tabindex="-1"></a>res.hpls <span class="ot">=</span> <span class="fu">H_PLSDA</span>(<span class="at">X_TRAIN =</span> X, <span class="at">Y_TRAIN =</span> <span class="fu">as.factor</span>(y))</span>
+<span id="cb27-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-2" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb27-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-4" tabindex="-1"></a><span class="fu">plot</span>(res.hpls<span class="sc">$</span>Scores<span class="sc">$</span>Train[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)], <span class="at">col =</span> <span class="fu">as.character</span>(col.Y), <span class="at">main =</span> <span class="st">&quot;MultiBlocks PLS&quot;</span>,</span>
+<span id="cb27-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Dimension 1 (&quot;</span>,<span class="fu">round</span>(res.hpls<span class="sc">$</span>Eigenvalue[<span class="dv">1</span>], <span class="dv">2</span>)<span class="sc">*</span><span class="dv">100</span>, <span class="st">&quot;%)&quot;</span> ), </span>
+<span id="cb27-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-6" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Dimension 2 (&quot;</span>,<span class="fu">round</span>(res.hpls<span class="sc">$</span>Eigenvalue[<span class="dv">2</span>], <span class="dv">2</span>)<span class="sc">*</span><span class="dv">100</span>, <span class="st">&quot;%)&quot;</span> ),</span>
+<span id="cb27-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-7" tabindex="-1"></a>     <span class="at">pch =</span> pch.CMS)</span>
+<span id="cb27-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottom&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(y), </span>
+<span id="cb27-9"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-9" tabindex="-1"></a>       <span class="at">fill =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb27-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;CMS-&quot;</span>, <span class="st">&quot;CMS+&quot;</span>),</span>
+<span id="cb27-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb27-11" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">15</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span><span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-17-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>The two individuals that appear as mild outliers mainly influence Dimension 2, not Dimension 1. Since the variable of interest (altitude) is primarily discriminated along Dimension 1, this is not problematic. However, if outliers were affecting Dimension 1, their data should be carefully examined.</p>
+</blockquote>
+<p>It is also important to assess how much variance is explained: if the first two dimensions explain more than 30–40% of the metabolomic variability associated with the clinical variable, the visualization can be considered representative of the dataset.</p>
+</div>
+<div id="pathway-importances" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Pathway importances<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#pathway-importances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Using the same model, we can extract pathway scores contributing to discrimination:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb28-1" tabindex="-1"></a>most_discriminative <span class="ot">&lt;-</span> res.hpls<span class="sc">$</span>Upper_loadings[<span class="fu">order</span>(<span class="fu">abs</span>(res.hpls<span class="sc">$</span>Upper_loadings[,<span class="dv">1</span>]), <span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],]</span>
+<span id="cb28-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb28-2" tabindex="-1"></a><span class="fu">print</span>(most_discriminative)</span></code></pre></div>
+<pre><code>##                                                            comp1       comp2
+## Metabolic pathways_1                                  -0.2432523  0.03354068
+## ABC transporters_1                                     0.2386318  0.01192316
+## Cyanoamino acid metabolism_1                           0.2185817 -0.01197315
+## Biosynthesis of various other secondary metabolites_1  0.2136652 -0.01008021
+## Lysine degradation_1                                  -0.2062004  0.03167174
+##                                                             comp3       comp4
+## Metabolic pathways_1                                   0.08789360  0.03804882
+## ABC transporters_1                                    -0.05772128  0.01525797
+## Cyanoamino acid metabolism_1                          -0.04500167 -0.10041447
+## Biosynthesis of various other secondary metabolites_1 -0.04802155 -0.13691198
+## Lysine degradation_1                                   0.08173582 -0.09715320
+##                                                             comp5
+## Metabolic pathways_1                                  -0.18074760
+## ABC transporters_1                                     0.25418892
+## Cyanoamino acid metabolism_1                           0.01665172
+## Biosynthesis of various other secondary metabolites_1 -0.04118681
+## Lysine degradation_1                                  -0.09528158</code></pre>
+<p>The “1” suffix indicates the first latent component of the PLS model built for each pathway.</p>
+</div>
+<div id="metabolites-importances" class="section level3 hasAnchor" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> Metabolites importances<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#metabolites-importances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>n this model, we can also access the importance of metabolites within specific pathways. For example, when focusing on the most relevant pathway, “<em>Metabolic pathways</em>”, the most discriminative metabolites within this KEGG category can be identified as follows:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb30-1" tabindex="-1"></a>res.hpls<span class="sc">$</span>Lower_loadings<span class="sc">$</span><span class="st">`</span><span class="at">Metabolic pathways</span><span class="st">`</span>[<span class="fu">order</span>(<span class="fu">abs</span>(res.hpls<span class="sc">$</span>Lower_loadings<span class="sc">$</span><span class="st">`</span><span class="at">Metabolic pathways</span><span class="st">`</span>[,<span class="dv">1</span>]), <span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],]</span></code></pre></div>
+<pre><code>##                     comp1       comp2
+## DEOXYURIDINE    0.3649336 -0.05538352
+## DEOXYCARNITINE -0.3211059 -0.12497468
+## NICOTINAMIDE    0.2946844  0.17765385
+## D-ORNITHINE    -0.2834363  0.08069687
+## RAFFINOSE       0.2760391 -0.25113834</code></pre>
+<p>To further investigate these metabolites, their intensity can be visualized as a function of the response variable <span class="math inline">\(Y\)</span>.</p>
+</div>
+</div>
+<div id="validation-steps-of-the-h-plsda" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Validation steps of the H-PLSDA<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#validation-steps-of-the-h-plsda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section, we propose two key validation approaches:</p>
+<ul>
+<li><p>Compute the <span class="math inline">\(R^2\)</span> along with the associated <span class="math inline">\(p\)</span>-value, which addresses the question: <em>does the metabolome separate according to the clinical variable <span class="math inline">\(Y\)</span>?</em></p></li>
+<li><p>Perform a cross-validation procedure to assess the generalizability of the model, which is essential to avoid overfitting and drawing misleading conclusions from the results.</p></li>
+</ul>
+<blockquote>
+<p>The cross-validation procedure is the most important one.</p>
+</blockquote>
+<div id="r2" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> <span class="math inline">\(R^2\)</span><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#r2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A permutation-based statistical test can be performed by using the <code>H-PLSDA</code> R function, as follow:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-1" tabindex="-1"></a><span class="co"># # Statistical test</span></span>
+<span id="cb32-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-2" tabindex="-1"></a><span class="co"># obs = res.hpls$R2 # This is the R-squared observed.</span></span>
+<span id="cb32-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-3" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb32-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-4" tabindex="-1"></a><span class="co"># n_perm = 999</span></span>
+<span id="cb32-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-5" tabindex="-1"></a><span class="co"># R2_perm = c()</span></span>
+<span id="cb32-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-6" tabindex="-1"></a><span class="co"># for(i in 1:n_perm){</span></span>
+<span id="cb32-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-7" tabindex="-1"></a><span class="co">#   </span><span class="al">###</span><span class="co"> PERMUTATED MODEL</span></span>
+<span id="cb32-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-8" tabindex="-1"></a><span class="co">#   mod &lt;- H_PLSDA(X_TRAIN = X, Y_TRAIN = sample(y))</span></span>
+<span id="cb32-9"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-9" tabindex="-1"></a><span class="co">#   R2_perm &lt;- c(R2_perm, mod$R2)</span></span>
+<span id="cb32-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-10" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb32-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-11" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-12" tabindex="-1"></a><span class="co"># hist(R2_perm)</span></span>
+<span id="cb32-13"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-13" tabindex="-1"></a><span class="co"># abline(v=obs)</span></span>
+<span id="cb32-14"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-14" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb32-15" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;p-value &lt;0.001&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;p-value &lt;0.001&quot;</code></pre>
+<p>In this graph, we can check whether our R-squared is rare or commune when the data are permuted. Here, we show that the observed R-Squared is rare and so is p value is really low (p&lt;0.001).</p>
+</div>
+<div id="cross-validation-procedure" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Cross-validation procedure<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cross-validation-procedure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We generated 50 datasets where: 75% of individuals are used for training, and 25% are used for validation.</p>
+<blockquote>
+<p>Validation data are normalized using training set parameters.</p>
+</blockquote>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb34-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-2" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb34-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-4" tabindex="-1"></a><span class="do">## MODEL ACCURACY</span></span>
+<span id="cb34-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-5" tabindex="-1"></a>accuracy <span class="ot">=</span> accuracy.random <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb34-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-6" tabindex="-1"></a>Q2 <span class="ot">=</span> Q2.permuted <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb34-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-7" tabindex="-1"></a><span class="do">## PIP</span></span>
+<span id="cb34-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-8" tabindex="-1"></a>DIM<span class="fl">.1</span> <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb34-9"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-9" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-10" tabindex="-1"></a><span class="cf">for</span>(cv <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb34-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-11" tabindex="-1"></a>  <span class="do">## Set de calibration et set de validation</span></span>
+<span id="cb34-12"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-12" tabindex="-1"></a>  intraining <span class="ot">=</span> caret<span class="sc">::</span><span class="fu">createDataPartition</span>(y, <span class="at">p =</span> <span class="fl">0.75</span>, <span class="at">list =</span> F)</span>
+<span id="cb34-13"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-13" tabindex="-1"></a>  </span>
+<span id="cb34-14"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-14" tabindex="-1"></a>  train <span class="ot">&lt;-</span> <span class="fu">lapply</span>(X, <span class="cf">function</span>(x) x[intraining,])</span>
+<span id="cb34-15"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-15" tabindex="-1"></a>  test <span class="ot">=</span> <span class="fu">lapply</span>(X, <span class="cf">function</span>(x) x[<span class="sc">-</span>intraining,])</span>
+<span id="cb34-16"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-16" tabindex="-1"></a>  </span>
+<span id="cb34-17"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-17" tabindex="-1"></a>  <span class="do">## MODEL</span></span>
+<span id="cb34-18"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-18" tabindex="-1"></a>  res.hpls <span class="ot">&lt;-</span> <span class="fu">H_PLSDA</span>(<span class="at">X_TRAIN =</span> train, <span class="at">Y_TRAIN =</span> y[intraining],</span>
+<span id="cb34-19"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-19" tabindex="-1"></a>                     <span class="at">new.data =</span> test, <span class="at">new.Y =</span> y[<span class="sc">-</span>intraining])</span>
+<span id="cb34-20"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-20" tabindex="-1"></a>  </span>
+<span id="cb34-21"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-21" tabindex="-1"></a>  <span class="do">## Permuted classes to get the random accuracy.</span></span>
+<span id="cb34-22"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-22" tabindex="-1"></a>  res.hpls.permuted.class <span class="ot">&lt;-</span> <span class="fu">H_PLSDA</span>(<span class="at">X_TRAIN =</span> train, <span class="at">Y_TRAIN =</span> <span class="fu">sample</span>(y[intraining]),</span>
+<span id="cb34-23"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-23" tabindex="-1"></a>                                    <span class="at">new.data =</span> test, <span class="at">new.Y =</span> y[<span class="sc">-</span>intraining])</span>
+<span id="cb34-24"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-24" tabindex="-1"></a>  </span>
+<span id="cb34-25"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-25" tabindex="-1"></a>  <span class="do">## ACCURACY</span></span>
+<span id="cb34-26"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-26" tabindex="-1"></a>  accuracy <span class="ot">=</span> <span class="fu">c</span>(accuracy, res.hpls<span class="sc">$</span>Accuracy<span class="sc">$</span>overall[[<span class="dv">1</span>]])</span>
+<span id="cb34-27"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-27" tabindex="-1"></a>  accuracy.random <span class="ot">=</span> <span class="fu">c</span>(accuracy.random, res.hpls.permuted.class<span class="sc">$</span>Accuracy<span class="sc">$</span>overall[[<span class="dv">1</span>]])</span>
+<span id="cb34-28"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-28" tabindex="-1"></a>  </span>
+<span id="cb34-29"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-29" tabindex="-1"></a>  Q2 <span class="ot">=</span> <span class="fu">c</span>(Q2, res.hpls<span class="sc">$</span>Q2)</span>
+<span id="cb34-30"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-30" tabindex="-1"></a>  Q2.permuted <span class="ot">=</span> <span class="fu">c</span>(Q2.permuted, res.hpls.permuted.class<span class="sc">$</span>Q2)</span>
+<span id="cb34-31"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-31" tabindex="-1"></a>  </span>
+<span id="cb34-32"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-32" tabindex="-1"></a>  <span class="do">## PIP</span></span>
+<span id="cb34-33"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-33" tabindex="-1"></a>  DIM<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">cbind</span>(DIM<span class="fl">.1</span>, res.hpls<span class="sc">$</span>Upper_loadings[<span class="fu">grep</span>( <span class="st">&quot;_1&quot;</span>, <span class="fu">rownames</span>(res.hpls<span class="sc">$</span>Upper_loadings)), <span class="dv">1</span>])</span>
+<span id="cb34-34"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb34-34" tabindex="-1"></a>}</span></code></pre></div>
+<div id="model-accuracy" class="section level4 hasAnchor" number="4.4.2.1">
+<h4><span class="header-section-number">4.4.2.1</span> Model accuracy<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#model-accuracy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Cross-validation also allows us to assess the predictive performance of the model:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb35-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-2" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">cbind</span>(accuracy.random, accuracy), <span class="at">ylab =</span> <span class="st">&quot;Predictive performance</span><span class="sc">\n</span><span class="st">on the test set (Accuracy)&quot;</span>,</span>
+<span id="cb35-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-3" tabindex="-1"></a>        <span class="at">axes =</span> F, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;grey90&quot;</span>, <span class="st">&quot;grey30&quot;</span>))</span>
+<span id="cb35-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-4" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb35-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-5" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb35-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-6" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="fu">c</span>(<span class="st">&quot;Negative</span><span class="sc">\n</span><span class="st">control&quot;</span>, <span class="st">&quot;H-PLSDA&quot;</span>), <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb35-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-7" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="st">&quot;***&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb35-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb35-8" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fl">0.8</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" alt="" width="384" style="display: block; margin: auto;" /></p>
+<p>The y-axis of this Figure represents model accuracy, reflecting the confidence that we can have in the presented results.</p>
+<p>An accuracy of 1 indicates perfect classification, whereas an accuracy close to 0.5 corresponds to random performance.</p>
+<p>A negative control using permuted altitude labels results in random accuracy (light grey box in the Figure).</p>
+<p>The MB-PLS projection (dark grey box in the Figure) reaches an accuracy of approximately 0.7, supporting a low to medium reliability of the previously identified metabolite signatures.</p>
+<blockquote>
+<p>Below an accuracy of 0.8 (represented by the dashed line in the plot), there is a possibility that the model is overfitting.</p>
+</blockquote>
+</div>
+<div id="q2" class="section level4 hasAnchor" number="4.4.2.2">
+<h4><span class="header-section-number">4.4.2.2</span> <span class="math inline">\(Q^2\)</span><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#q2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <span class="math inline">\(Q^2\)</span> statistic is a cross-validated measure used to evaluate the predictive performance of a model, particularly in PLS-based methods such as PLSDA and H-PLSDA. Unlike <span class="math inline">\(R^2\)</span>, which reflects the goodness of fit on the training data, <span class="math inline">\(Q^2\)</span> assesses how well the model can generalize to unseen data, making it a more reliable indicator of predictive ability. In practice, <span class="math inline">\(Q^2\)</span> values closer to 1 indicate strong predictive performance, values above 0.5 are generally considered good, and values near zero indicate weak or no predictive power.</p>
+<blockquote>
+<p>Importantly, negative <span class="math inline">\(Q^2\)</span> values occur when the prediction error of the model is larger than the variance of the data itself, meaning that the model performs worse than a naive baseline that simply predicts the mean (or random assignment in classification settings). Therefore, a <span class="math inline">\(Q^2\)</span> below zero suggests that the model has no meaningful predictive ability and is likely overfitting the training data or failing to capture a robust signal in the data structure.</p>
+</blockquote>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb36-1" tabindex="-1"></a><span class="fu">median</span>(Q2)</span></code></pre></div>
+<pre><code>## [1] 0.07657831</code></pre>
+<p>The median <span class="math inline">\(Q^2\)</span> is not really good. However, we can see that when classes are permuted th <span class="math inline">\(Q^2\)</span> is above 0.</p>
+</div>
+</div>
+<div id="important-pathways" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Important Pathways<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#important-pathways" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This procedure provides a confidence interval on the contribution of pathways to Dimension 1:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-1" tabindex="-1"></a>sens <span class="ot">=</span> <span class="fu">order</span>(<span class="fu">rowSums</span>(DIM<span class="fl">.1</span>))</span>
+<span id="cb38-2"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-2" tabindex="-1"></a>sd <span class="ot">=</span> <span class="fu">apply</span>(DIM<span class="fl">.1</span>, <span class="dv">1</span>, sd)</span>
+<span id="cb38-3"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-3" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb38-5"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rowMeans</span>(DIM<span class="fl">.1</span>)[sens], <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">3</span>, .<span class="dv">3</span>), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">axes =</span> F, </span>
+<span id="cb38-6"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-6" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Contribution of the pathway</span><span class="sc">\n</span><span class="st">to the DIM 1 of the MB-PLS&quot;</span>)</span>
+<span id="cb38-7"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-7" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0 =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(DIM<span class="fl">.1</span>), </span>
+<span id="cb38-8"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-8" tabindex="-1"></a>         <span class="at">y0 =</span> <span class="fu">rowMeans</span>(DIM<span class="fl">.1</span>)[sens] <span class="sc">-</span> sd[sens], </span>
+<span id="cb38-9"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-9" tabindex="-1"></a>         <span class="at">y1 =</span> <span class="fu">rowMeans</span>(DIM<span class="fl">.1</span>)[sens] <span class="sc">+</span> sd[sens])</span>
+<span id="cb38-10"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>)</span>
+<span id="cb38-11"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb38-12"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cb38-12" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(DIM<span class="fl">.1</span>), <span class="at">y =</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fu">nrow</span>(DIM<span class="fl">.1</span>)), <span class="at">labels =</span> <span class="fu">sub</span>(<span class="st">&quot;_1&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">rownames</span>(DIM<span class="fl">.1</span>))[sens], <span class="at">xpd =</span> <span class="cn">NA</span>, <span class="at">srt =</span><span class="dv">45</span>, <span class="at">pos =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="theory-of-hierarchical-partial-least-square.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="random-forest-applied-to-multiblocks-optional.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/main/03-H_pls.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

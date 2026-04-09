@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Theory of Hierarchical Partial Least Square | An Example of Metabolomics Analysis</title>
+  <meta name="description" content="Chapter 3 Theory of Hierarchical Partial Least Square | An Example of Metabolomics Analysis" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Theory of Hierarchical Partial Least Square | An Example of Metabolomics Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Theory of Hierarchical Partial Least Square | An Example of Metabolomics Analysis" />
+  
+  
+  
+
+<meta name="author" content="David MARTIN" />
+
+
+<meta name="date" content="2026-04-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-preprocessing.html"/>
+<link rel="next" href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metabolomics Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> R package</a></li>
+<li class="chapter" data-level="2" data-path="data-preprocessing.html"><a href="data-preprocessing.html"><i class="fa fa-check"></i><b>2</b> Data preprocessing</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#environment-setup"><i class="fa fa-check"></i><b>2.1</b> Environment setup</a></li>
+<li class="chapter" data-level="2.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#importing-data-and-metadata"><i class="fa fa-check"></i><b>2.2</b> Importing data and metadata</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#example"><i class="fa fa-check"></i><b>2.2.1</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#pathway-annotation-from-metabolomics-data"><i class="fa fa-check"></i><b>2.3</b> Pathway annotation from metabolomics data</a></li>
+<li class="chapter" data-level="2.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#mapping-metabolites-to-kegg-pathways"><i class="fa fa-check"></i><b>2.4</b> Mapping metabolites to KEGG pathways</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#limiting-pseudo-replication-optional-but-recommended"><i class="fa fa-check"></i><b>2.4.1</b> Limiting pseudo-replication (optional but recommended)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#identify-highly-duplicated-metabolites"><i class="fa fa-check"></i><b>2.4.2</b> Identify highly duplicated metabolites</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#redundancy-filtering-strategy"><i class="fa fa-check"></i><b>2.4.3</b> Redundancy filtering strategy</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#save-cleaned-data"><i class="fa fa-check"></i><b>2.4.4</b> Save cleaned data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html"><i class="fa fa-check"></i><b>3</b> Theory of Hierarchical Partial Least Square</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#why-used-h-mb-pls"><i class="fa fa-check"></i><b>3.1</b> Why used H-(MB)-PLS?</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-performances-between-classic-pls-and-hierarchical-pls-are-the-same."><i class="fa fa-check"></i><b>3.1.1</b> The model performances between classic PLS and hierarchical PLS are the same.</a></li>
+<li class="chapter" data-level="3.1.2" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls."><i class="fa fa-check"></i><b>3.1.2</b> The model interpretability is higher in hierarchical PLS than classic PLS.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><i class="fa fa-check"></i><b>4</b> Hieararchical - Partial Least Square Discriminant Analysis (H-PLS)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#import"><i class="fa fa-check"></i><b>4.1</b> Import</a></li>
+<li class="chapter" data-level="4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#defining-the-working-data-x-et-y"><i class="fa fa-check"></i><b>4.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#visualisation"><i class="fa fa-check"></i><b>4.3</b> Visualisation</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#individual-score-plot"><i class="fa fa-check"></i><b>4.3.1</b> Individual score plot</a></li>
+<li class="chapter" data-level="4.3.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#pathway-importances"><i class="fa fa-check"></i><b>4.3.2</b> Pathway importances</a></li>
+<li class="chapter" data-level="4.3.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#metabolites-importances"><i class="fa fa-check"></i><b>4.3.3</b> Metabolites importances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#validation-steps-of-the-h-plsda"><i class="fa fa-check"></i><b>4.4</b> Validation steps of the H-PLSDA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#r2"><i class="fa fa-check"></i><b>4.4.1</b> <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="4.4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cross-validation-procedure"><i class="fa fa-check"></i><b>4.4.2</b> Cross-validation procedure</a></li>
+<li class="chapter" data-level="4.4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#important-pathways"><i class="fa fa-check"></i><b>4.4.3</b> Important Pathways</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html"><i class="fa fa-check"></i><b>5</b> Random Forest applied to MultiBlocks (Optional)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#import-1"><i class="fa fa-check"></i><b>5.1</b> Import</a></li>
+<li class="chapter" data-level="5.2" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#defining-the-working-data-x-et-y-1"><i class="fa fa-check"></i><b>5.2</b> defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="5.3" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#random-forest-on-multiple-pathways"><i class="fa fa-check"></i><b>5.3</b> Random Forest on multiple pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html"><i class="fa fa-check"></i><b>6</b> Redundancy Analysis and Network</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#import-2"><i class="fa fa-check"></i><b>6.1</b> Import</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#defining-the-working-data-x-et-y-2"><i class="fa fa-check"></i><b>6.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#redundancy-analysis"><i class="fa fa-check"></i><b>6.3</b> Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.4" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#example-of-redundancy-analysis"><i class="fa fa-check"></i><b>6.4</b> Example of Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-between-sets-of-variables"><i class="fa fa-check"></i><b>6.5</b> Network between sets of variables</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-visualisation"><i class="fa fa-check"></i><b>6.5.1</b> Network visualisation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#the-intresting-rda"><i class="fa fa-check"></i><b>6.6</b> The intresting RDA</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html"><i class="fa fa-check"></i><b>7</b> Metabolite-focused statistical approaches</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#import-3"><i class="fa fa-check"></i><b>7.1</b> Import</a></li>
+<li class="chapter" data-level="7.2" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#defining-the-working-data-x-et-y-3"><i class="fa fa-check"></i><b>7.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="7.3" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#summary-of-significant-associations-barplot"><i class="fa fa-check"></i><b>7.3</b> Summary of significant associations (Barplot)</a></li>
+<li class="chapter" data-level="7.4" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#overlap-of-significant-metabolites-venn-diagram"><i class="fa fa-check"></i><b>7.4</b> Overlap of significant metabolites (Venn diagram)</a></li>
+<li class="chapter" data-level="7.5" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#stability-of-associations-bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>7.5</b> Stability of associations (Bootstrap confidence intervals)</a></li>
+<li class="chapter" data-level="7.6" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#interpretation"><i class="fa fa-check"></i><b>7.6</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/DJrMartin" target="blank">Voir le repo</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Example of Metabolomics Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="theory-of-hierarchical-partial-least-square" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Theory of Hierarchical Partial Least Square<a href="theory-of-hierarchical-partial-least-square.html#theory-of-hierarchical-partial-least-square" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Metabolomics data are structured into functional blocks that link individual metabolite concentrations to annotated biochemical reaction networks (from a curated database like KEGG).</p>
+<p>Each block represents a set of metabolites belonging to a specific pathways. Hierarchical method then allow the identification of coordinated signatures, where specific pathways jointly explain the observed variance of <span class="math inline">\(Y\)</span>.</p>
+<p>The H-PLS procedure consists of the following steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>A PLS model is built independently for group of metabolites corresponding to a biological function (e.g., KEGG pathway) to explain <span class="math inline">\(Y\)</span>. This step consist of creating the lower level of the final model.</p></li>
+<li><p>A final PLS model is then constructed using the individual scores obtained from all block-specific PLS models (from the lower level). This step enables the identification of physiological pathways associated with the target (clinical or environmental) variable of interest. This step is called the upper level of the model <span class="citation">(<a href="#ref-wold_hierarchical_1996">Wold, Kettaneh, and Tjessem 1996</a>)</span>.</p></li>
+</ol>
+<p>This integrative approach enhances biological interpretation by directly linking metabolic perturbations to coherent cellular processes, while improving the robustness of identified biomarkers in complex pathological contexts.</p>
+<p align="center">
+<img src="picture/Figure_1.svg" width="100%" height="100%" />
+</p>
+<blockquote>
+<p>In case of unsupervised analysis, we can used the <code>HMFA()</code> R function from the <code>FactoMineR</code> package <span class="citation">(<a href="#ref-HMFA_ledien_2003">Le Dien and Pagès 2003</a>)</span>.</p>
+</blockquote>
+<div id="why-used-h-mb-pls" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Why used H-(MB)-PLS?<a href="theory-of-hierarchical-partial-least-square.html#why-used-h-mb-pls" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Hierarchical (Multi-block) Partial Least Squares (H-PLS) is an extension of classical PLS designed to integrate multiple data blocks measured on the same individuals.</p>
+<p>The main advantage of the multi-block framework is not to “amplify” weak set of variables, but rather to balance the contribution of heterogeneous data blocks in the construction of latent components <span class="citation">(<a href="#ref-multidimensional_analysis">Renato 1994</a>)</span>.</p>
+<p>In classical PLS, when all variables are concatenated into a single matrix, blocks containing more variables or higher variance tend to dominate the estimation of latent structures. As a consequence, biologically relevant but weaker signals can be masked.</p>
+<p>In contrast, MB-PLS explicitly models each block separately and seeks latent components that maximize the shared covariance structure across blocks and with the response variable. This leads to a more balanced representation of the underlying biological system.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="theory-of-hierarchical-partial-least-square.html#cb18-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/simulation.R&quot;</span>)</span>
+<span id="cb18-2"><a href="theory-of-hierarchical-partial-least-square.html#cb18-2" tabindex="-1"></a>data_sim <span class="ot">&lt;-</span> <span class="fu">simulate_multiblock_data</span>(<span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div>
+<p>To illustrate this behavior, we simulate three data blocks (you used a specific function <code>simulate_multiblock_data()</code>):</p>
+<ul>
+<li><p>Block 1 (p = 80): mostly noisy variables with weak diffuse signal.</p></li>
+<li><p>Block 2 (p = 10): small set of variables with stronger but still realistic signal.</p></li>
+<li><p>Block 3 (p = 100) : only stochastic noise.</p></li>
+<li><p>Y: response influenced by blocks 1 and 2, but mainly by <em>Block 2</em>.</p></li>
+</ul>
+<p>We observe that blocks 1 and 2 are correlated with the response, but the signal is more associated with block 2.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="theory-of-hierarchical-partial-least-square.html#cb19-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">mean</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(data_sim<span class="sc">$</span>train<span class="sc">$</span>block1, <span class="fu">as.numeric</span>(data_sim<span class="sc">$</span>Y_train)))))</span></code></pre></div>
+<pre><code>## [1] 0.08857035</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="theory-of-hierarchical-partial-least-square.html#cb21-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">mean</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(data_sim<span class="sc">$</span>train<span class="sc">$</span>block2, <span class="fu">as.numeric</span>(data_sim<span class="sc">$</span>Y_train)))))</span></code></pre></div>
+<pre><code>## [1] 0.1745485</code></pre>
+<p>We then fit two different multivariate regression models in order to compare their ability to recover the underlying structure linking predictors to the response variable <span class="math inline">\(Y\)</span>.</p>
+<p>The first model is a classical Partial Least Squares (PLS) regression applied to the concatenated predictor matrix <span class="math inline">\([X_1 \, | \, X_2, | \, X_3]\)</span>, where all variables are treated as a single <strong>homogeneous block</strong>. This approach assumes that all predictors contribute on a common scale and does not explicitly account for the hierarchical or modular structure of the data.</p>
+<p>The second model is a Hierarchical Partial Least Squares (H-PLS) model implemented in the <code>C2VN</code> R package. In this framework, predictors are explicitly partitioned into separate blocks corresponding to distinct data sources (<span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>, and <span class="math inline">\(X_3\)</span>). The H-PLS algorithm constructs latent components that maximize covariance both within and between blocks, while preserving the structure of each individual dataset.</p>
+<div id="the-model-performances-between-classic-pls-and-hierarchical-pls-are-the-same." class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> The model performances between classic PLS and hierarchical PLS are the same.<a href="theory-of-hierarchical-partial-least-square.html#the-model-performances-between-classic-pls-and-hierarchical-pls-are-the-same." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To compare the performance of a standard PLS-DA model with the proposed hierarchical PLS-DA (H-PLS-DA), we conducted a simulation study based on 50 independent datasets generated using a multi-block structure.</p>
+<p>Each simulated dataset consists of three blocks with different sizes and correlation structures, where only two blocks carry signal associated with the response variable, while the third block contains noise. The response is binary and derived from a nonlinear combination of variables from the informative blocks, making the classification task moderately complex.</p>
+<p>For each iteration:</p>
+<ul>
+<li>A training set (75%) and a test set (25%) are generated.</li>
+<li>A classical PLS-DA model is fitted on the concatenated data from all blocks.</li>
+<li>A hierarchical PLS-DA (H-PLS-DA) model is applied.</li>
+</ul>
+<p>Model performance is evaluated on the test set using classification accuracy derived from the confusion matrix.</p>
+<p>The figure below shows a scatter plot comparing the accuracies obtained with both approaches across the 50 simulations. Each point corresponds to one simulated dataset, with:</p>
+<p>the x-axis representing the accuracy of the classical PLS-DA,
+the y-axis representing the accuracy of the hierarchical PLS-DA.</p>
+<p>The diagonal line indicates equal performance between the two methods.</p>
+<p>Overall, the results show that both approaches achieve very similar predictive performance, as most points lie close to the diagonal. This suggests that, in this simulation setting, the hierarchical structure does not provide a clear advantage in terms of classification accuracy compared to a standard PLS-DA applied to concatenated data.</p>
+<p>However, the hierarchical approach may still offer benefits in terms of interpretability and structured analysis of multi-block data, which are not captured by accuracy alone.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="theory-of-hierarchical-partial-least-square.html#cb23-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/H_PLSDA.R&quot;</span>)</span>
+<span id="cb23-2"><a href="theory-of-hierarchical-partial-least-square.html#cb23-2" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/simulation.R&quot;</span>)</span>
+<span id="cb23-3"><a href="theory-of-hierarchical-partial-least-square.html#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="theory-of-hierarchical-partial-least-square.html#cb23-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb23-5"><a href="theory-of-hierarchical-partial-least-square.html#cb23-5" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="theory-of-hierarchical-partial-least-square.html#cb23-6" tabindex="-1"></a>res.accouracy.pls <span class="ot">=</span> res.accouracy.Hpls <span class="ot">=</span> <span class="fu">c</span>()</span>
+<span id="cb23-7"><a href="theory-of-hierarchical-partial-least-square.html#cb23-7" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>){</span>
+<span id="cb23-8"><a href="theory-of-hierarchical-partial-least-square.html#cb23-8" tabindex="-1"></a>  data_sim <span class="ot">&lt;-</span> <span class="fu">simulate_multiblock_data</span>()</span>
+<span id="cb23-9"><a href="theory-of-hierarchical-partial-least-square.html#cb23-9" tabindex="-1"></a>  </span>
+<span id="cb23-10"><a href="theory-of-hierarchical-partial-least-square.html#cb23-10" tabindex="-1"></a>  <span class="co"># CLASSICAL MODEL</span></span>
+<span id="cb23-11"><a href="theory-of-hierarchical-partial-least-square.html#cb23-11" tabindex="-1"></a>  res.pls <span class="ot">&lt;-</span> mixOmics<span class="sc">::</span><span class="fu">plsda</span>(<span class="fu">data.frame</span>(<span class="fu">cbind</span>(data_sim<span class="sc">$</span>train<span class="sc">$</span>block1, data_sim<span class="sc">$</span>train<span class="sc">$</span>block2, data_sim<span class="sc">$</span>train<span class="sc">$</span>block3)), data_sim<span class="sc">$</span>Y_train, <span class="at">ncomp =</span> <span class="dv">4</span>)</span>
+<span id="cb23-12"><a href="theory-of-hierarchical-partial-least-square.html#cb23-12" tabindex="-1"></a>  </span>
+<span id="cb23-13"><a href="theory-of-hierarchical-partial-least-square.html#cb23-13" tabindex="-1"></a>  res.accouracy.pls <span class="ot">=</span> <span class="fu">c</span>(res.accouracy.pls, </span>
+<span id="cb23-14"><a href="theory-of-hierarchical-partial-least-square.html#cb23-14" tabindex="-1"></a>    caret<span class="sc">::</span><span class="fu">confusionMatrix</span>(<span class="fu">factor</span>(<span class="fu">predict</span>(res.pls, <span class="fu">data.frame</span>(<span class="fu">cbind</span>(data_sim<span class="sc">$</span>test<span class="sc">$</span>block1, data_sim<span class="sc">$</span>test<span class="sc">$</span>block2, data_sim<span class="sc">$</span>test<span class="sc">$</span>block3)))<span class="sc">$</span>class<span class="sc">$</span>max.dist[,<span class="dv">4</span>], <span class="at">levels =</span> <span class="fu">levels</span>(data_sim<span class="sc">$</span>Y_train)), data_sim<span class="sc">$</span>Y_test)<span class="sc">$</span>overall[<span class="dv">1</span>])</span>
+<span id="cb23-15"><a href="theory-of-hierarchical-partial-least-square.html#cb23-15" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="theory-of-hierarchical-partial-least-square.html#cb23-16" tabindex="-1"></a>  <span class="co"># MULTI-BLOCKS MODEL</span></span>
+<span id="cb23-17"><a href="theory-of-hierarchical-partial-least-square.html#cb23-17" tabindex="-1"></a>  res.mb_pls <span class="ot">&lt;-</span> <span class="fu">H_PLSDA</span>(data_sim<span class="sc">$</span>train, </span>
+<span id="cb23-18"><a href="theory-of-hierarchical-partial-least-square.html#cb23-18" tabindex="-1"></a>                        data_sim<span class="sc">$</span>Y_train, </span>
+<span id="cb23-19"><a href="theory-of-hierarchical-partial-least-square.html#cb23-19" tabindex="-1"></a>                        <span class="at">new.data =</span> data_sim<span class="sc">$</span>test, </span>
+<span id="cb23-20"><a href="theory-of-hierarchical-partial-least-square.html#cb23-20" tabindex="-1"></a>                        <span class="at">new.Y =</span> data_sim<span class="sc">$</span>Y_test)</span>
+<span id="cb23-21"><a href="theory-of-hierarchical-partial-least-square.html#cb23-21" tabindex="-1"></a>  </span>
+<span id="cb23-22"><a href="theory-of-hierarchical-partial-least-square.html#cb23-22" tabindex="-1"></a>  res.accouracy.Hpls <span class="ot">=</span> <span class="fu">c</span>(res.accouracy.Hpls, res.mb_pls<span class="sc">$</span>Accuracy<span class="sc">$</span>overall[<span class="dv">1</span>])</span>
+<span id="cb23-23"><a href="theory-of-hierarchical-partial-least-square.html#cb23-23" tabindex="-1"></a>}</span>
+<span id="cb23-24"><a href="theory-of-hierarchical-partial-least-square.html#cb23-24" tabindex="-1"></a></span>
+<span id="cb23-25"><a href="theory-of-hierarchical-partial-least-square.html#cb23-25" tabindex="-1"></a><span class="fu">plot</span>(res.accouracy.pls, res.accouracy.Hpls, <span class="at">xlab =</span> <span class="st">&quot;Accuracy of the classical PLS&quot;</span>, </span>
+<span id="cb23-26"><a href="theory-of-hierarchical-partial-least-square.html#cb23-26" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Accuracy of the hierarchical PLS&quot;</span>)</span>
+<span id="cb23-27"><a href="theory-of-hierarchical-partial-least-square.html#cb23-27" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls." class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> The model interpretability is higher in hierarchical PLS than classic PLS.<a href="theory-of-hierarchical-partial-least-square.html#the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We also examine the correlation circle plots of the variables obtained from each model. These plots represent the correlations between the original variables and the latent components, providing an intuitive measure of variable contribution and importance within the multivariate model.</p>
+<p>The classical PLS show that all the variables does not exceed a correlation more than 0.5 with the new constructed latent space. As a result, signals from smaller but informative blocks (i.e., block n°2 which is colored in red) may be diluted in the global latent space.</p>
+<p>In contrast, the H-PLS approach explicitly accounts for the block structure during model estimation. This results in a more balanced representation of the data, where latent components capture shared variation across blocks rather than being dominated by a single dataset <span class="citation">(<a href="#ref-westerhuis_analysis_1998">Westerhuis, Kourti, and MacGregor 1998</a>)</span>. Consequently, variables that are truly associated with the response <span class="math inline">\(Y\)</span> are more clearly highlighted in the correlation circle representation.</p>
+<blockquote>
+<p>We also can used th Multi-block pls from the <code>mixOmics</code> R package, which is slightly different, but could propose a very good alternative dependeing on the research question.</p>
+</blockquote>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="theory-of-hierarchical-partial-least-square.html#cb24-1" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">length</span>(data_sim<span class="sc">$</span>beta[[<span class="dv">1</span>]])</span>
+<span id="cb24-2"><a href="theory-of-hierarchical-partial-least-square.html#cb24-2" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">length</span>(data_sim<span class="sc">$</span>beta[[<span class="dv">2</span>]])</span>
+<span id="cb24-3"><a href="theory-of-hierarchical-partial-least-square.html#cb24-3" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="theory-of-hierarchical-partial-least-square.html#cb24-4" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
+<span id="cb24-5"><a href="theory-of-hierarchical-partial-least-square.html#cb24-5" tabindex="-1"></a><span class="fu">plot</span>(res.pls<span class="sc">$</span>loadings<span class="sc">$</span>X, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ylim =</span>  <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">&quot;CLASSICAL PLS&quot;</span>)</span>
+<span id="cb24-6"><a href="theory-of-hierarchical-partial-least-square.html#cb24-6" tabindex="-1"></a><span class="fu">points</span>(res.pls<span class="sc">$</span>loadings<span class="sc">$</span>X[(p1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(p1<span class="sc">+</span>p2),], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb24-7"><a href="theory-of-hierarchical-partial-least-square.html#cb24-7" tabindex="-1"></a><span class="fu">symbols</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="at">circles =</span> <span class="fl">0.5</span>, <span class="at">inches =</span> <span class="cn">FALSE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-8"><a href="theory-of-hierarchical-partial-least-square.html#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="theory-of-hierarchical-partial-least-square.html#cb24-9" tabindex="-1"></a><span class="fu">plot</span>(res.mb_pls<span class="sc">$</span>Lower_loadings<span class="sc">$</span>block1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ylim =</span>  <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">main =</span> <span class="st">&quot;H-PLS&quot;</span>)</span>
+<span id="cb24-10"><a href="theory-of-hierarchical-partial-least-square.html#cb24-10" tabindex="-1"></a><span class="fu">points</span>(res.mb_pls<span class="sc">$</span>Lower_loadings<span class="sc">$</span>block2, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb24-11"><a href="theory-of-hierarchical-partial-least-square.html#cb24-11" tabindex="-1"></a><span class="fu">symbols</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="at">circles =</span> <span class="fl">0.5</span>, <span class="at">inches =</span> <span class="cn">FALSE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-HMFA_ledien_2003" class="csl-entry">
+Le Dien, Sebastien, and Jerome Pagès. 2003. <span>“Hierarchical Multiple Factor Analysis: Application to the Comparison of Sensory Profiles.”</span> <em>Food Quality and Preference</em> 14 (5-6).
+</div>
+<div id="ref-multidimensional_analysis" class="csl-entry">
+Renato, Coppi. 1994. <span>“An Introduction to Multiway Data and Their Analysis.”</span> <em>Computational Statistics &amp; Data Analysis</em> 18.
+</div>
+<div id="ref-westerhuis_analysis_1998" class="csl-entry">
+Westerhuis, Johan A., Theodora Kourti, and John F. MacGregor. 1998. <span>“Analysis of Multiblock and Hierarchical <span>PCA</span> and <span>PLS</span> Models.”</span> <em>Journal of Chemometrics</em> 12 (5).
+</div>
+<div id="ref-wold_hierarchical_1996" class="csl-entry">
+Wold, Svante, Nouna Kettaneh, and Kjell Tjessem. 1996. <span>“Hierarchical Multiblock <span>PLS</span> and <span>PC</span> Models for Easier Model Interpretation and as an Alternative to Variable Selection.”</span> <em>Journal of Chemometrics</em> 10 (5-6).
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-preprocessing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/main/02-theorie.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

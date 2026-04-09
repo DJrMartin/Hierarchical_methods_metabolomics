@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Redundancy Analysis and Network | An Example of Metabolomics Analysis</title>
+  <meta name="description" content="Chapter 6 Redundancy Analysis and Network | An Example of Metabolomics Analysis" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Redundancy Analysis and Network | An Example of Metabolomics Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Redundancy Analysis and Network | An Example of Metabolomics Analysis" />
+  
+  
+  
+
+<meta name="author" content="David MARTIN" />
+
+
+<meta name="date" content="2026-04-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="random-forest-applied-to-multiblocks-optional.html"/>
+<link rel="next" href="metabolite-focused-statistical-approaches.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metabolomics Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> R package</a></li>
+<li class="chapter" data-level="2" data-path="data-preprocessing.html"><a href="data-preprocessing.html"><i class="fa fa-check"></i><b>2</b> Data preprocessing</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#environment-setup"><i class="fa fa-check"></i><b>2.1</b> Environment setup</a></li>
+<li class="chapter" data-level="2.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#importing-data-and-metadata"><i class="fa fa-check"></i><b>2.2</b> Importing data and metadata</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#example"><i class="fa fa-check"></i><b>2.2.1</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#pathway-annotation-from-metabolomics-data"><i class="fa fa-check"></i><b>2.3</b> Pathway annotation from metabolomics data</a></li>
+<li class="chapter" data-level="2.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#mapping-metabolites-to-kegg-pathways"><i class="fa fa-check"></i><b>2.4</b> Mapping metabolites to KEGG pathways</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#limiting-pseudo-replication-optional-but-recommended"><i class="fa fa-check"></i><b>2.4.1</b> Limiting pseudo-replication (optional but recommended)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#identify-highly-duplicated-metabolites"><i class="fa fa-check"></i><b>2.4.2</b> Identify highly duplicated metabolites</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#redundancy-filtering-strategy"><i class="fa fa-check"></i><b>2.4.3</b> Redundancy filtering strategy</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#save-cleaned-data"><i class="fa fa-check"></i><b>2.4.4</b> Save cleaned data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html"><i class="fa fa-check"></i><b>3</b> Theory of Hierarchical Partial Least Square</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#why-used-h-mb-pls"><i class="fa fa-check"></i><b>3.1</b> Why used H-(MB)-PLS?</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-performances-between-classic-pls-and-hierarchical-pls-are-the-same."><i class="fa fa-check"></i><b>3.1.1</b> The model performances between classic PLS and hierarchical PLS are the same.</a></li>
+<li class="chapter" data-level="3.1.2" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls."><i class="fa fa-check"></i><b>3.1.2</b> The model interpretability is higher in hierarchical PLS than classic PLS.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><i class="fa fa-check"></i><b>4</b> Hieararchical - Partial Least Square Discriminant Analysis (H-PLS)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#import"><i class="fa fa-check"></i><b>4.1</b> Import</a></li>
+<li class="chapter" data-level="4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#defining-the-working-data-x-et-y"><i class="fa fa-check"></i><b>4.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#visualisation"><i class="fa fa-check"></i><b>4.3</b> Visualisation</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#individual-score-plot"><i class="fa fa-check"></i><b>4.3.1</b> Individual score plot</a></li>
+<li class="chapter" data-level="4.3.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#pathway-importances"><i class="fa fa-check"></i><b>4.3.2</b> Pathway importances</a></li>
+<li class="chapter" data-level="4.3.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#metabolites-importances"><i class="fa fa-check"></i><b>4.3.3</b> Metabolites importances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#validation-steps-of-the-h-plsda"><i class="fa fa-check"></i><b>4.4</b> Validation steps of the H-PLSDA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#r2"><i class="fa fa-check"></i><b>4.4.1</b> <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="4.4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cross-validation-procedure"><i class="fa fa-check"></i><b>4.4.2</b> Cross-validation procedure</a></li>
+<li class="chapter" data-level="4.4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#important-pathways"><i class="fa fa-check"></i><b>4.4.3</b> Important Pathways</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html"><i class="fa fa-check"></i><b>5</b> Random Forest applied to MultiBlocks (Optional)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#import-1"><i class="fa fa-check"></i><b>5.1</b> Import</a></li>
+<li class="chapter" data-level="5.2" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#defining-the-working-data-x-et-y-1"><i class="fa fa-check"></i><b>5.2</b> defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="5.3" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#random-forest-on-multiple-pathways"><i class="fa fa-check"></i><b>5.3</b> Random Forest on multiple pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html"><i class="fa fa-check"></i><b>6</b> Redundancy Analysis and Network</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#import-2"><i class="fa fa-check"></i><b>6.1</b> Import</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#defining-the-working-data-x-et-y-2"><i class="fa fa-check"></i><b>6.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#redundancy-analysis"><i class="fa fa-check"></i><b>6.3</b> Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.4" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#example-of-redundancy-analysis"><i class="fa fa-check"></i><b>6.4</b> Example of Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-between-sets-of-variables"><i class="fa fa-check"></i><b>6.5</b> Network between sets of variables</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-visualisation"><i class="fa fa-check"></i><b>6.5.1</b> Network visualisation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#the-intresting-rda"><i class="fa fa-check"></i><b>6.6</b> The intresting RDA</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html"><i class="fa fa-check"></i><b>7</b> Metabolite-focused statistical approaches</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#import-3"><i class="fa fa-check"></i><b>7.1</b> Import</a></li>
+<li class="chapter" data-level="7.2" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#defining-the-working-data-x-et-y-3"><i class="fa fa-check"></i><b>7.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="7.3" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#summary-of-significant-associations-barplot"><i class="fa fa-check"></i><b>7.3</b> Summary of significant associations (Barplot)</a></li>
+<li class="chapter" data-level="7.4" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#overlap-of-significant-metabolites-venn-diagram"><i class="fa fa-check"></i><b>7.4</b> Overlap of significant metabolites (Venn diagram)</a></li>
+<li class="chapter" data-level="7.5" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#stability-of-associations-bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>7.5</b> Stability of associations (Bootstrap confidence intervals)</a></li>
+<li class="chapter" data-level="7.6" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#interpretation"><i class="fa fa-check"></i><b>7.6</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/DJrMartin" target="blank">Voir le repo</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Example of Metabolomics Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="redundancy-analysis-and-network" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Redundancy Analysis and Network<a href="redundancy-analysis-and-network.html#redundancy-analysis-and-network" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="import-2" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Import<a href="redundancy-analysis-and-network.html#import-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="redundancy-analysis-and-network.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb43-2"><a href="redundancy-analysis-and-network.html#cb43-2" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb43-3"><a href="redundancy-analysis-and-network.html#cb43-3" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/rawdata_expedition_A.rda&quot;</span>) <span class="co"># Raw data structured as described in the previous chapter</span></span>
+<span id="cb43-4"><a href="redundancy-analysis-and-network.html#cb43-4" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/cleandata_expedition_A.rda&quot;</span>) <span class="co"># Data mapped to KEGG (i.e., list of pathways with metabolites)</span></span>
+<span id="cb43-5"><a href="redundancy-analysis-and-network.html#cb43-5" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="redundancy-analysis-and-network.html#cb43-6" tabindex="-1"></a><span class="co"># Functions</span></span>
+<span id="cb43-7"><a href="redundancy-analysis-and-network.html#cb43-7" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/RDA.R&quot;</span>)</span></code></pre></div>
+</div>
+<div id="defining-the-working-data-x-et-y-2" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span><a href="redundancy-analysis-and-network.html#defining-the-working-data-x-et-y-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this analysis, two sets of variables are defined. The matrix <span class="math inline">\(X\)</span> corresponds to metabolomic features grouped by biological pathways, while the matrix <span class="math inline">\(Y\)</span> contains clinical variables measured in the same individuals.</p>
+<p>Both matrices are aligned using a common set of sample identifiers to ensure that each row corresponds to the same individual across datasets. Missing values in <span class="math inline">\(Y\)</span> are handled by removing variables with excessive missingness.</p>
+<p>Clinical variables are further organized into predefined groups reflecting physiological functions. Additional covariates such as sampling location and clinical status are encoded and used for visualization purposes.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="redundancy-analysis-and-network.html#cb44-1" tabindex="-1"></a><span class="do">## X - METABOLOME</span></span>
+<span id="cb44-2"><a href="redundancy-analysis-and-network.html#cb44-2" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">lapply</span>(clean_data<span class="sc">$</span>Metabolites_pathways_no_redondancy<span class="sc">$</span>X_list, <span class="cf">function</span>(x) <span class="fu">t</span>(x))</span>
+<span id="cb44-3"><a href="redundancy-analysis-and-network.html#cb44-3" tabindex="-1"></a>ID_in_X <span class="ot">=</span> <span class="fu">rownames</span>(X[[<span class="dv">1</span>]])</span>
+<span id="cb44-4"><a href="redundancy-analysis-and-network.html#cb44-4" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="redundancy-analysis-and-network.html#cb44-5" tabindex="-1"></a><span class="do">## Y - CLINICAL VARIABLES</span></span>
+<span id="cb44-6"><a href="redundancy-analysis-and-network.html#cb44-6" tabindex="-1"></a>Y <span class="ot">=</span> <span class="fu">apply</span>(data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,], <span class="dv">2</span>, as.numeric)</span>
+<span id="cb44-7"><a href="redundancy-analysis-and-network.html#cb44-7" tabindex="-1"></a>Y[<span class="fu">which</span>(<span class="fu">is.infinite</span>(Y))] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb44-8"><a href="redundancy-analysis-and-network.html#cb44-8" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="redundancy-analysis-and-network.html#cb44-9" tabindex="-1"></a>w <span class="ot">=</span> <span class="fu">which</span>((<span class="fu">colSums</span>(<span class="fu">is.na</span>(Y))<span class="sc">&lt;</span><span class="dv">40</span>))</span>
+<span id="cb44-10"><a href="redundancy-analysis-and-network.html#cb44-10" tabindex="-1"></a>Y <span class="ot">=</span> Y[,w]</span>
+<span id="cb44-11"><a href="redundancy-analysis-and-network.html#cb44-11" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="redundancy-analysis-and-network.html#cb44-12" tabindex="-1"></a>groups <span class="ot">=</span> data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Groups of clinical variables</span><span class="st">`</span>[w]</span>
+<span id="cb44-13"><a href="redundancy-analysis-and-network.html#cb44-13" tabindex="-1"></a>groups[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]<span class="ot">=</span><span class="st">&quot;CMS&quot;</span></span>
+<span id="cb44-14"><a href="redundancy-analysis-and-network.html#cb44-14" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="redundancy-analysis-and-network.html#cb44-15" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">factor</span>(data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]<span class="sc">$</span><span class="st">`</span><span class="at">City of testing</span><span class="st">`</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Lima&quot;</span> ,<span class="st">&quot;Puno&quot;</span>, <span class="st">&quot;La Rinconada&quot;</span>)) <span class="do">## Altitude of residence</span></span>
+<span id="cb44-16"><a href="redundancy-analysis-and-network.html#cb44-16" tabindex="-1"></a>col.Y <span class="ot">=</span> <span class="fu">factor</span>(y, <span class="fu">levels</span>(y), paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]) <span class="co"># Colors for plots</span></span>
+<span id="cb44-17"><a href="redundancy-analysis-and-network.html#cb44-17" tabindex="-1"></a></span>
+<span id="cb44-18"><a href="redundancy-analysis-and-network.html#cb44-18" tabindex="-1"></a><span class="do">## CO-variates</span></span>
+<span id="cb44-19"><a href="redundancy-analysis-and-network.html#cb44-19" tabindex="-1"></a>pch.CMS <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">factor</span>(data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]<span class="sc">$</span><span class="st">`</span><span class="at">CMS groups</span><span class="st">`</span>,</span>
+<span id="cb44-20"><a href="redundancy-analysis-and-network.html#cb44-20" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;No CMS&quot;</span>, <span class="st">&quot;Mild CMS&quot;</span>, <span class="st">&quot;Mod-Sev CMS&quot;</span>), <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">15</span>)) ))</span></code></pre></div>
+</div>
+<div id="redundancy-analysis" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Redundancy Analysis<a href="redundancy-analysis-and-network.html#redundancy-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Redundancy Analysis (RDA) is a multivariate statistical technique exploring the relationships between sets of variables. RDA measures how much a group of variables (i.e., metabolomic function) are linked to a group of clinical varaibles.</p>
+<p>RDA is composed of two steps; in the first one, the PCA of the clinical variables is performed; in the second step a canonical correlation analysis is computed that maximizes the correlation between the metabolites belonging to a specific function and the axis of the PCA of step 1.</p>
+<p>The results of RDA can be interpreted in terms of relationships between both sets of variables. In the results, we obtained two statistics: (a) the adjusted explained variance (<span class="math inline">\(R^2\)</span>) of Y (i.e., clinical variables) by the set of variables X (metabolites), and (b) the p value associated with the test where the null hypothesis is that <span class="math inline">\(X\)</span> is linearly independent of <span class="math inline">\(Y\)</span>.</p>
+<p align="center">
+<img src="picture/Figure_2.svg" width="100%" height="100%" />
+</p>
+</div>
+<div id="example-of-redundancy-analysis" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Example of Redundancy Analysis<a href="redundancy-analysis-and-network.html#example-of-redundancy-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The function <code>rda_manual</code>, available in the associated repository, implements this procedure. It requires several input arguments that must be carefully specified.</p>
+<p>The argument <code>Y</code> corresponds to the matrix of response variables. In this example, a subset of clinical variables is selected based on a specific clinical group.</p>
+<p>The argument <code>X</code> corresponds to the matrix of explanatory variables. Here, it represents metabolomic pathways, where each column corresponds to a metabolite and each row to an individual.</p>
+<p>The arguments <code>pch_sites</code> and <code>col_sites</code> define graphical parameters used to represent individuals in the ordination plot. They encode additional metadata such as clinical status (here, CMS) and sampling location (here, altitude location).</p>
+<p>The argument <code>arrows_scale</code> controls the scaling of the variable vectors displayed in the biplot, allowing better visualization of their relative contributions.</p>
+<p>The argument <code>sel.var</code> defines a threshold used to select the most relevant variables for display. Only variables with sufficiently large contributions to the first two canonical axes are shown.</p>
+<p>The function returns both numerical results and graphical outputs. The numerical output includes the adjusted explained variance and the p value associated with the permutation test. The graphical output represents the ordination of individuals and the contribution of variables in a reduced dimensional space. You can used the argument <code>graph = FALSE</code> to avoid the graphical output.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="redundancy-analysis-and-network.html#cb45-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>))</span>
+<span id="cb45-2"><a href="redundancy-analysis-and-network.html#cb45-2" tabindex="-1"></a>res.rda <span class="ot">=</span> <span class="fu">rda_manual</span>(<span class="at">Y =</span> Y[, groups <span class="sc">==</span> <span class="st">&quot;Corebreathing&quot;</span>], <span class="at">X =</span> X<span class="sc">$</span><span class="st">`</span><span class="at">Metabolic pathways</span><span class="st">`</span>,</span>
+<span id="cb45-3"><a href="redundancy-analysis-and-network.html#cb45-3" tabindex="-1"></a>                     <span class="at">pch_sites =</span> pch.CMS, <span class="at">col_sites =</span> <span class="fu">as.character</span>(col.Y), <span class="at">arrows_scale =</span> <span class="dv">2</span>, <span class="at">sel.var =</span> <span class="fl">0.3</span>)</span>
+<span id="cb45-4"><a href="redundancy-analysis-and-network.html#cb45-4" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="redundancy-analysis-and-network.html#cb45-5" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;RDA linking Corebreathing to Metabolic pathways&quot;</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
+<span id="cb45-6"><a href="redundancy-analysis-and-network.html#cb45-6" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">&quot;Variance explained = &quot;</span>, <span class="fu">round</span>(res.rda<span class="sc">$</span>partition[<span class="dv">4</span>,], <span class="dv">2</span>), <span class="st">&quot;%,</span><span class="sc">\n</span><span class="st"> p = &quot;</span>,</span>
+<span id="cb45-7"><a href="redundancy-analysis-and-network.html#cb45-7" tabindex="-1"></a>                                  <span class="fu">round</span>(res.rda<span class="sc">$</span>partition[<span class="dv">3</span>,], <span class="dv">3</span>)),<span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb45-8"><a href="redundancy-analysis-and-network.html#cb45-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(y), </span>
+<span id="cb45-9"><a href="redundancy-analysis-and-network.html#cb45-9" tabindex="-1"></a>       <span class="at">fill =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb45-10"><a href="redundancy-analysis-and-network.html#cb45-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;CMS-&quot;</span>, <span class="st">&quot;CMS+&quot;</span>),</span>
+<span id="cb45-11"><a href="redundancy-analysis-and-network.html#cb45-11" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">15</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span><span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="network-between-sets-of-variables" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Network between sets of variables<a href="redundancy-analysis-and-network.html#network-between-sets-of-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To explore relationships between all groups of variables, pairwise redundancy analyses are performed. Each pair consists of one group of clinical variables and one group of metabolomic variables. This systematic approach allows the construction of a network summarizing the strongest associations across datasets.</p>
+<p>For each pair, only two quantities are retained. The adjusted coefficient of determination measures the strength of the association, while the p value assesses its statistical significance.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="redundancy-analysis-and-network.html#cb46-1" tabindex="-1"></a>group_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">unique</span>(groups)[<span class="sc">-</span><span class="dv">1</span>], <span class="fu">names</span>(X))</span>
+<span id="cb46-2"><a href="redundancy-analysis-and-network.html#cb46-2" tabindex="-1"></a>pairs <span class="ot">&lt;-</span> <span class="fu">combn</span>(group_levels, <span class="dv">2</span>, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb46-3"><a href="redundancy-analysis-and-network.html#cb46-3" tabindex="-1"></a>pairs <span class="ot">&lt;-</span> pairs[<span class="sc">!</span><span class="fu">sapply</span>(pairs, <span class="cf">function</span>(p) <span class="fu">all</span>(p <span class="sc">%in%</span> <span class="fu">unique</span>(groups)))]</span>
+<span id="cb46-4"><a href="redundancy-analysis-and-network.html#cb46-4" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="redundancy-analysis-and-network.html#cb46-5" tabindex="-1"></a>pairs_clinic_fct <span class="ot">=</span> <span class="fu">length</span>(<span class="fu">unique</span>(groups)[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">*</span><span class="fu">length</span>(<span class="fu">names</span>(X))</span></code></pre></div>
+<p>The results are then filtered to retain only robust associations, defined by a high explained variance and a low p value. These filtered associations are used to construct a network representation.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="redundancy-analysis-and-network.html#cb47-1" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb47-2"><a href="redundancy-analysis-and-network.html#cb47-2" tabindex="-1"></a>  <span class="at">pair_names_1 =</span> <span class="fu">c</span>(pair_names_1),</span>
+<span id="cb47-3"><a href="redundancy-analysis-and-network.html#cb47-3" tabindex="-1"></a>  <span class="at">pair_names_2 =</span> <span class="fu">c</span>(pair_names_2),</span>
+<span id="cb47-4"><a href="redundancy-analysis-and-network.html#cb47-4" tabindex="-1"></a>  <span class="at">R2 =</span> <span class="fu">c</span>(R2),</span>
+<span id="cb47-5"><a href="redundancy-analysis-and-network.html#cb47-5" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">c</span>(p_value)</span>
+<span id="cb47-6"><a href="redundancy-analysis-and-network.html#cb47-6" tabindex="-1"></a>)</span>
+<span id="cb47-7"><a href="redundancy-analysis-and-network.html#cb47-7" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="redundancy-analysis-and-network.html#cb47-8" tabindex="-1"></a><span class="fu">save</span>(result, <span class="at">file =</span> <span class="st">&quot;data/network.rda&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="redundancy-analysis-and-network.html#cb48-1" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&quot;data/network.rda&quot;</span>)</span>
+<span id="cb48-2"><a href="redundancy-analysis-and-network.html#cb48-2" tabindex="-1"></a>result.reduced <span class="ot">=</span> result[result<span class="sc">$</span>p_value<span class="sc">&lt;=</span><span class="fl">0.001</span> <span class="sc">&amp;</span> result<span class="sc">$</span>R2 <span class="sc">&gt;</span> <span class="fl">0.35</span>, ]</span>
+<span id="cb48-3"><a href="redundancy-analysis-and-network.html#cb48-3" tabindex="-1"></a><span class="fu">dim</span>(result.reduced)</span></code></pre></div>
+<pre><code>## [1] 16  4</code></pre>
+<p>The <code>edges</code> object can be used for <code>cytoscape</code> to modify the layout and nodes position.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="redundancy-analysis-and-network.html#cb50-1" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb50-2"><a href="redundancy-analysis-and-network.html#cb50-2" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="redundancy-analysis-and-network.html#cb50-3" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb50-4"><a href="redundancy-analysis-and-network.html#cb50-4" tabindex="-1"></a>  <span class="at">from =</span> result.reduced<span class="sc">$</span>pair_names_1,</span>
+<span id="cb50-5"><a href="redundancy-analysis-and-network.html#cb50-5" tabindex="-1"></a>  <span class="at">to   =</span> result.reduced<span class="sc">$</span>pair_names_2,</span>
+<span id="cb50-6"><a href="redundancy-analysis-and-network.html#cb50-6" tabindex="-1"></a>  <span class="at">weight =</span> result.reduced<span class="sc">$</span>R2,</span>
+<span id="cb50-7"><a href="redundancy-analysis-and-network.html#cb50-7" tabindex="-1"></a>  <span class="at">p_value =</span> result.reduced<span class="sc">$</span>p_value</span>
+<span id="cb50-8"><a href="redundancy-analysis-and-network.html#cb50-8" tabindex="-1"></a>)</span>
+<span id="cb50-9"><a href="redundancy-analysis-and-network.html#cb50-9" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="redundancy-analysis-and-network.html#cb50-10" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb50-11"><a href="redundancy-analysis-and-network.html#cb50-11" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges<span class="sc">$</span>from, edges<span class="sc">$</span>to))</span>
+<span id="cb50-12"><a href="redundancy-analysis-and-network.html#cb50-12" tabindex="-1"></a>)</span>
+<span id="cb50-13"><a href="redundancy-analysis-and-network.html#cb50-13" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="redundancy-analysis-and-network.html#cb50-14" tabindex="-1"></a>nodes<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nodes<span class="sc">$</span>name <span class="sc">%in%</span> groups, <span class="st">&quot;clinical&quot;</span>, <span class="st">&quot;omics&quot;</span>)</span>
+<span id="cb50-15"><a href="redundancy-analysis-and-network.html#cb50-15" tabindex="-1"></a>nodes<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nodes<span class="sc">$</span>type <span class="sc">==</span> <span class="st">&quot;clinical&quot;</span>, <span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;lightblue&quot;</span>)</span>
+<span id="cb50-16"><a href="redundancy-analysis-and-network.html#cb50-16" tabindex="-1"></a></span>
+<span id="cb50-17"><a href="redundancy-analysis-and-network.html#cb50-17" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(edges, <span class="at">vertices =</span> nodes, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb50-18"><a href="redundancy-analysis-and-network.html#cb50-18" tabindex="-1"></a></span>
+<span id="cb50-19"><a href="redundancy-analysis-and-network.html#cb50-19" tabindex="-1"></a><span class="co"># calcul de la betweenness</span></span>
+<span id="cb50-20"><a href="redundancy-analysis-and-network.html#cb50-20" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>betweenness <span class="ot">&lt;-</span> <span class="fu">betweenness</span>(g, <span class="at">normalized =</span> T)</span>
+<span id="cb50-21"><a href="redundancy-analysis-and-network.html#cb50-21" tabindex="-1"></a></span>
+<span id="cb50-22"><a href="redundancy-analysis-and-network.html#cb50-22" tabindex="-1"></a><span class="co"># rescaling pour des tailles lisibles</span></span>
+<span id="cb50-23"><a href="redundancy-analysis-and-network.html#cb50-23" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="fu">V</span>(g)<span class="sc">$</span>betweenness <span class="sc">*</span> <span class="dv">50</span></span></code></pre></div>
+<div id="network-visualisation" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Network visualisation<a href="redundancy-analysis-and-network.html#network-visualisation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The network is represented as a graph where nodes correspond to groups of variables and edges represent significant associations between them. Nodes are classified into two categories, clinical variables and metabolomic variables, and are displayed with distinct colors.</p>
+<p>The importance of each node within the network is quantified using betweenness centrality, which measures how frequently a node lies on the shortest paths between other nodes. This metric is used to scale node sizes, highlighting variables that play a central role in the structure of the network.</p>
+<p>Edges are weighted according to the strength of the association, allowing a visual interpretation of the most relevant links between variable groups.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="redundancy-analysis-and-network.html#cb51-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb51-2"><a href="redundancy-analysis-and-network.html#cb51-2" tabindex="-1"></a>lay <span class="ot">&lt;-</span> <span class="fu">layout_with_graphopt</span>(g)</span>
+<span id="cb51-3"><a href="redundancy-analysis-and-network.html#cb51-3" tabindex="-1"></a><span class="co"># séparer tes groupes</span></span>
+<span id="cb51-4"><a href="redundancy-analysis-and-network.html#cb51-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb51-5"><a href="redundancy-analysis-and-network.html#cb51-5" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb51-6"><a href="redundancy-analysis-and-network.html#cb51-6" tabindex="-1"></a>  g,</span>
+<span id="cb51-7"><a href="redundancy-analysis-and-network.html#cb51-7" tabindex="-1"></a>  <span class="at">vertex.color =</span> <span class="fu">V</span>(g)<span class="sc">$</span>color,</span>
+<span id="cb51-8"><a href="redundancy-analysis-and-network.html#cb51-8" tabindex="-1"></a>  <span class="at">vertex.size =</span> <span class="fu">V</span>(g)<span class="sc">$</span>size,</span>
+<span id="cb51-9"><a href="redundancy-analysis-and-network.html#cb51-9" tabindex="-1"></a>  <span class="at">vertex.label.cex =</span> <span class="fl">1.2</span>,</span>
+<span id="cb51-10"><a href="redundancy-analysis-and-network.html#cb51-10" tabindex="-1"></a>  <span class="at">edge.width =</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight <span class="sc">*</span> <span class="dv">5</span>,</span>
+<span id="cb51-11"><a href="redundancy-analysis-and-network.html#cb51-11" tabindex="-1"></a>  <span class="at">layout =</span> lay</span>
+<span id="cb51-12"><a href="redundancy-analysis-and-network.html#cb51-12" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-37-1.png" alt="" width="768" style="display: block; margin: auto;" /></p>
+<p>In this graph, nodes in blue correspond to sets of metabolite and nodes in green define sets of clinical variables.</p>
+</div>
+</div>
+<div id="the-intresting-rda" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> The intresting RDA<a href="redundancy-analysis-and-network.html#the-intresting-rda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Finally, specific redundancy analyses identified as relevant in the network are visualized in detail. These plots provide an interpretable representation of the relationships between clinical variables and metabolomic pathways.</p>
+<p>Each ordination plot displays individuals projected in the constrained space, along with vectors representing the variables that contribute most strongly to the canonical axes. The proportion of explained variance and the associated <span class="math inline">\(p\)</span> value are reported to quantify the strength and significance of the relationship.</p>
+<p>These visualizations facilitate the biological interpretation of the associations identified in the global network analysis.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="redundancy-analysis-and-network.html#cb52-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;fct/RDA.R&quot;</span>)</span>
+<span id="cb52-2"><a href="redundancy-analysis-and-network.html#cb52-2" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="redundancy-analysis-and-network.html#cb52-3" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
+<span id="cb52-4"><a href="redundancy-analysis-and-network.html#cb52-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>))</span>
+<span id="cb52-5"><a href="redundancy-analysis-and-network.html#cb52-5" tabindex="-1"></a>res.rda <span class="ot">=</span> <span class="fu">rda_manual</span>(<span class="at">Y =</span> Y[, groups <span class="sc">==</span> <span class="st">&quot;O2/CO2&quot;</span>], <span class="at">X =</span> X<span class="sc">$</span><span class="st">`</span><span class="at">Metabolic pathways</span><span class="st">`</span>,</span>
+<span id="cb52-6"><a href="redundancy-analysis-and-network.html#cb52-6" tabindex="-1"></a>                     <span class="at">pch_sites =</span> pch.CMS, <span class="at">col_sites =</span> <span class="fu">as.character</span>(col.Y), <span class="at">arrows_scale =</span> <span class="dv">1</span>, <span class="at">sel.var =</span> <span class="fl">0.3</span>)</span>
+<span id="cb52-7"><a href="redundancy-analysis-and-network.html#cb52-7" tabindex="-1"></a></span>
+<span id="cb52-8"><a href="redundancy-analysis-and-network.html#cb52-8" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;RDA linking O2/CO2 parameters to metabolic pathways&quot;</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
+<span id="cb52-9"><a href="redundancy-analysis-and-network.html#cb52-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">&quot;Variance explained = &quot;</span>, <span class="fu">round</span>(res.rda<span class="sc">$</span>partition[<span class="dv">4</span>,], <span class="dv">2</span>), <span class="st">&quot;%,</span><span class="sc">\n</span><span class="st"> p = &quot;</span>,</span>
+<span id="cb52-10"><a href="redundancy-analysis-and-network.html#cb52-10" tabindex="-1"></a>                                  <span class="fu">round</span>(res.rda<span class="sc">$</span>partition[<span class="dv">3</span>,], <span class="dv">3</span>)),<span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb52-11"><a href="redundancy-analysis-and-network.html#cb52-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(y), </span>
+<span id="cb52-12"><a href="redundancy-analysis-and-network.html#cb52-12" tabindex="-1"></a>       <span class="at">fill =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb52-13"><a href="redundancy-analysis-and-network.html#cb52-13" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;CMS-&quot;</span>, <span class="st">&quot;CMS+&quot;</span>),</span>
+<span id="cb52-14"><a href="redundancy-analysis-and-network.html#cb52-14" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">15</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span><span class="st">&quot;gray&quot;</span>)</span>
+<span id="cb52-15"><a href="redundancy-analysis-and-network.html#cb52-15" tabindex="-1"></a></span>
+<span id="cb52-16"><a href="redundancy-analysis-and-network.html#cb52-16" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>))</span>
+<span id="cb52-17"><a href="redundancy-analysis-and-network.html#cb52-17" tabindex="-1"></a>res.rda <span class="ot">=</span> <span class="fu">rda_manual</span>(<span class="at">Y =</span> Y[,groups<span class="sc">==</span><span class="st">&quot;NO&quot;</span>], <span class="at">X =</span> X<span class="sc">$</span><span class="st">`</span><span class="at">Metabolic pathways</span><span class="st">`</span>, </span>
+<span id="cb52-18"><a href="redundancy-analysis-and-network.html#cb52-18" tabindex="-1"></a>                     <span class="at">pch_sites =</span> pch.CMS, <span class="at">col_sites =</span> <span class="fu">as.character</span>(col.Y), <span class="at">arrows_scale =</span> <span class="dv">2</span>)</span>
+<span id="cb52-19"><a href="redundancy-analysis-and-network.html#cb52-19" tabindex="-1"></a></span>
+<span id="cb52-20"><a href="redundancy-analysis-and-network.html#cb52-20" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;RDA linking NO to metabolic pathways&quot;</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
+<span id="cb52-21"><a href="redundancy-analysis-and-network.html#cb52-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">&quot;Variance explained = &quot;</span>, <span class="fu">round</span>(res.rda<span class="sc">$</span>partition[<span class="dv">4</span>,], <span class="dv">2</span>), <span class="st">&quot;%,</span><span class="sc">\n</span><span class="st"> p = &quot;</span>,</span>
+<span id="cb52-22"><a href="redundancy-analysis-and-network.html#cb52-22" tabindex="-1"></a>                                  <span class="fu">round</span>(res.rda<span class="sc">$</span>partition[<span class="dv">3</span>,], <span class="dv">3</span>)), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb52-23"><a href="redundancy-analysis-and-network.html#cb52-23" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(y), </span>
+<span id="cb52-24"><a href="redundancy-analysis-and-network.html#cb52-24" tabindex="-1"></a>       <span class="at">fill =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb52-25"><a href="redundancy-analysis-and-network.html#cb52-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;CMS-&quot;</span>, <span class="st">&quot;CMS+&quot;</span>),</span>
+<span id="cb52-26"><a href="redundancy-analysis-and-network.html#cb52-26" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">15</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span><span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="random-forest-applied-to-multiblocks-optional.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="metabolite-focused-statistical-approaches.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/main/05-Network.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Metabolite-focused statistical approaches | An Example of Metabolomics Analysis</title>
+  <meta name="description" content="Chapter 7 Metabolite-focused statistical approaches | An Example of Metabolomics Analysis" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Metabolite-focused statistical approaches | An Example of Metabolomics Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Metabolite-focused statistical approaches | An Example of Metabolomics Analysis" />
+  
+  
+  
+
+<meta name="author" content="David MARTIN" />
+
+
+<meta name="date" content="2026-04-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="redundancy-analysis-and-network.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metabolomics Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> R package</a></li>
+<li class="chapter" data-level="2" data-path="data-preprocessing.html"><a href="data-preprocessing.html"><i class="fa fa-check"></i><b>2</b> Data preprocessing</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#environment-setup"><i class="fa fa-check"></i><b>2.1</b> Environment setup</a></li>
+<li class="chapter" data-level="2.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#importing-data-and-metadata"><i class="fa fa-check"></i><b>2.2</b> Importing data and metadata</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#example"><i class="fa fa-check"></i><b>2.2.1</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#pathway-annotation-from-metabolomics-data"><i class="fa fa-check"></i><b>2.3</b> Pathway annotation from metabolomics data</a></li>
+<li class="chapter" data-level="2.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#mapping-metabolites-to-kegg-pathways"><i class="fa fa-check"></i><b>2.4</b> Mapping metabolites to KEGG pathways</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#limiting-pseudo-replication-optional-but-recommended"><i class="fa fa-check"></i><b>2.4.1</b> Limiting pseudo-replication (optional but recommended)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#identify-highly-duplicated-metabolites"><i class="fa fa-check"></i><b>2.4.2</b> Identify highly duplicated metabolites</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#redundancy-filtering-strategy"><i class="fa fa-check"></i><b>2.4.3</b> Redundancy filtering strategy</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html#save-cleaned-data"><i class="fa fa-check"></i><b>2.4.4</b> Save cleaned data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html"><i class="fa fa-check"></i><b>3</b> Theory of Hierarchical Partial Least Square</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#why-used-h-mb-pls"><i class="fa fa-check"></i><b>3.1</b> Why used H-(MB)-PLS?</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-performances-between-classic-pls-and-hierarchical-pls-are-the-same."><i class="fa fa-check"></i><b>3.1.1</b> The model performances between classic PLS and hierarchical PLS are the same.</a></li>
+<li class="chapter" data-level="3.1.2" data-path="theory-of-hierarchical-partial-least-square.html"><a href="theory-of-hierarchical-partial-least-square.html#the-model-interpretability-is-higher-in-hierarchical-pls-than-classic-pls."><i class="fa fa-check"></i><b>3.1.2</b> The model interpretability is higher in hierarchical PLS than classic PLS.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><i class="fa fa-check"></i><b>4</b> Hieararchical - Partial Least Square Discriminant Analysis (H-PLS)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#import"><i class="fa fa-check"></i><b>4.1</b> Import</a></li>
+<li class="chapter" data-level="4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#defining-the-working-data-x-et-y"><i class="fa fa-check"></i><b>4.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#visualisation"><i class="fa fa-check"></i><b>4.3</b> Visualisation</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#individual-score-plot"><i class="fa fa-check"></i><b>4.3.1</b> Individual score plot</a></li>
+<li class="chapter" data-level="4.3.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#pathway-importances"><i class="fa fa-check"></i><b>4.3.2</b> Pathway importances</a></li>
+<li class="chapter" data-level="4.3.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#metabolites-importances"><i class="fa fa-check"></i><b>4.3.3</b> Metabolites importances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#validation-steps-of-the-h-plsda"><i class="fa fa-check"></i><b>4.4</b> Validation steps of the H-PLSDA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#r2"><i class="fa fa-check"></i><b>4.4.1</b> <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="4.4.2" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#cross-validation-procedure"><i class="fa fa-check"></i><b>4.4.2</b> Cross-validation procedure</a></li>
+<li class="chapter" data-level="4.4.3" data-path="hieararchical---partial-least-square-discriminant-analysis-h-pls.html"><a href="hieararchical---partial-least-square-discriminant-analysis-h-pls.html#important-pathways"><i class="fa fa-check"></i><b>4.4.3</b> Important Pathways</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html"><i class="fa fa-check"></i><b>5</b> Random Forest applied to MultiBlocks (Optional)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#import-1"><i class="fa fa-check"></i><b>5.1</b> Import</a></li>
+<li class="chapter" data-level="5.2" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#defining-the-working-data-x-et-y-1"><i class="fa fa-check"></i><b>5.2</b> defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="5.3" data-path="random-forest-applied-to-multiblocks-optional.html"><a href="random-forest-applied-to-multiblocks-optional.html#random-forest-on-multiple-pathways"><i class="fa fa-check"></i><b>5.3</b> Random Forest on multiple pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html"><i class="fa fa-check"></i><b>6</b> Redundancy Analysis and Network</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#import-2"><i class="fa fa-check"></i><b>6.1</b> Import</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#defining-the-working-data-x-et-y-2"><i class="fa fa-check"></i><b>6.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#redundancy-analysis"><i class="fa fa-check"></i><b>6.3</b> Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.4" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#example-of-redundancy-analysis"><i class="fa fa-check"></i><b>6.4</b> Example of Redundancy Analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-between-sets-of-variables"><i class="fa fa-check"></i><b>6.5</b> Network between sets of variables</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#network-visualisation"><i class="fa fa-check"></i><b>6.5.1</b> Network visualisation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="redundancy-analysis-and-network.html"><a href="redundancy-analysis-and-network.html#the-intresting-rda"><i class="fa fa-check"></i><b>6.6</b> The intresting RDA</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html"><i class="fa fa-check"></i><b>7</b> Metabolite-focused statistical approaches</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#import-3"><i class="fa fa-check"></i><b>7.1</b> Import</a></li>
+<li class="chapter" data-level="7.2" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#defining-the-working-data-x-et-y-3"><i class="fa fa-check"></i><b>7.2</b> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span></a></li>
+<li class="chapter" data-level="7.3" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#summary-of-significant-associations-barplot"><i class="fa fa-check"></i><b>7.3</b> Summary of significant associations (Barplot)</a></li>
+<li class="chapter" data-level="7.4" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#overlap-of-significant-metabolites-venn-diagram"><i class="fa fa-check"></i><b>7.4</b> Overlap of significant metabolites (Venn diagram)</a></li>
+<li class="chapter" data-level="7.5" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#stability-of-associations-bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>7.5</b> Stability of associations (Bootstrap confidence intervals)</a></li>
+<li class="chapter" data-level="7.6" data-path="metabolite-focused-statistical-approaches.html"><a href="metabolite-focused-statistical-approaches.html#interpretation"><i class="fa fa-check"></i><b>7.6</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/DJrMartin" target="blank">Voir le repo</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Example of Metabolomics Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="metabolite-focused-statistical-approaches" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Metabolite-focused statistical approaches<a href="metabolite-focused-statistical-approaches.html#metabolite-focused-statistical-approaches" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter investigates associations between metabolomic features and living altitude using both unadjusted and adjusted statistical models.</p>
+<p>We apply:</p>
+<ul>
+<li><p>Correlation analysis (Pearson)</p></li>
+<li><p>Group comparisons (Wilcoxon tests)</p></li>
+<li><p>Adjustment for confounders (Age, BMI)</p></li>
+<li><p>Multiple visualization strategies (barplot, Venn diagram, bootstrap confidence intervals)</p></li>
+</ul>
+<div id="import-3" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Import<a href="metabolite-focused-statistical-approaches.html#import-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="metabolite-focused-statistical-approaches.html#cb53-1" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb53-2"><a href="metabolite-focused-statistical-approaches.html#cb53-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/rawdata_expedition_A.rda&quot;</span>)</span></code></pre></div>
+</div>
+<div id="defining-the-working-data-x-et-y-3" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Defining the working data: <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span><a href="metabolite-focused-statistical-approaches.html#defining-the-working-data-x-et-y-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this analysis, two sets of variables are defined. The matrix <span class="math inline">\(X\)</span> corresponds to metabolomic features grouped by biological pathways, while the matrix <span class="math inline">\(Y\)</span> contains clinical variables measured in the same individuals.</p>
+<p>Both matrices are aligned using a common set of sample identifiers to ensure that each row corresponds to the same individual across datasets. Missing values in <span class="math inline">\(Y\)</span> are handled by removing variables with excessive missingness.</p>
+<p>Clinical variables are further organized into predefined groups reflecting physiological functions. Additional covariates such as sampling location and clinical status are encoded and used for visualization purposes.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="metabolite-focused-statistical-approaches.html#cb54-1" tabindex="-1"></a><span class="do">## X - METABOLOME</span></span>
+<span id="cb54-2"><a href="metabolite-focused-statistical-approaches.html#cb54-2" tabindex="-1"></a>X <span class="ot">=</span> data<span class="sc">$</span>METABO<span class="sc">$</span>METABOLOMICS_PLASMA</span>
+<span id="cb54-3"><a href="metabolite-focused-statistical-approaches.html#cb54-3" tabindex="-1"></a>ID_in_X <span class="ot">=</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb54-4"><a href="metabolite-focused-statistical-approaches.html#cb54-4" tabindex="-1"></a></span>
+<span id="cb54-5"><a href="metabolite-focused-statistical-approaches.html#cb54-5" tabindex="-1"></a><span class="do">## Y - CLINICAL VARIABLES</span></span>
+<span id="cb54-6"><a href="metabolite-focused-statistical-approaches.html#cb54-6" tabindex="-1"></a>Y <span class="ot">=</span> <span class="fu">apply</span>(data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,], <span class="dv">2</span>, as.numeric)</span>
+<span id="cb54-7"><a href="metabolite-focused-statistical-approaches.html#cb54-7" tabindex="-1"></a>Y[<span class="fu">which</span>(<span class="fu">is.infinite</span>(Y))] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb54-8"><a href="metabolite-focused-statistical-approaches.html#cb54-8" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="metabolite-focused-statistical-approaches.html#cb54-9" tabindex="-1"></a>w <span class="ot">=</span> <span class="fu">which</span>((<span class="fu">colSums</span>(<span class="fu">is.na</span>(Y))<span class="sc">&lt;</span><span class="dv">40</span>))</span>
+<span id="cb54-10"><a href="metabolite-focused-statistical-approaches.html#cb54-10" tabindex="-1"></a>Y <span class="ot">=</span> Y[,w]</span>
+<span id="cb54-11"><a href="metabolite-focused-statistical-approaches.html#cb54-11" tabindex="-1"></a></span>
+<span id="cb54-12"><a href="metabolite-focused-statistical-approaches.html#cb54-12" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">factor</span>(data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]<span class="sc">$</span><span class="st">`</span><span class="at">City of testing</span><span class="st">`</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Lima&quot;</span> ,<span class="st">&quot;Puno&quot;</span>, <span class="st">&quot;La Rinconada&quot;</span>)) <span class="do">## Altitude of residence</span></span>
+<span id="cb54-13"><a href="metabolite-focused-statistical-approaches.html#cb54-13" tabindex="-1"></a>col.Y <span class="ot">=</span> <span class="fu">factor</span>(y, <span class="fu">levels</span>(y), paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]) <span class="co"># Colors for plots</span></span>
+<span id="cb54-14"><a href="metabolite-focused-statistical-approaches.html#cb54-14" tabindex="-1"></a></span>
+<span id="cb54-15"><a href="metabolite-focused-statistical-approaches.html#cb54-15" tabindex="-1"></a><span class="do">## CO-variates</span></span>
+<span id="cb54-16"><a href="metabolite-focused-statistical-approaches.html#cb54-16" tabindex="-1"></a>pch.CMS <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">factor</span>(data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]<span class="sc">$</span><span class="st">`</span><span class="at">CMS groups</span><span class="st">`</span>,</span>
+<span id="cb54-17"><a href="metabolite-focused-statistical-approaches.html#cb54-17" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;No CMS&quot;</span>, <span class="st">&quot;Mild CMS&quot;</span>, <span class="st">&quot;Mod-Sev CMS&quot;</span>), <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">15</span>)) ))</span>
+<span id="cb54-18"><a href="metabolite-focused-statistical-approaches.html#cb54-18" tabindex="-1"></a>age <span class="ot">=</span> data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]<span class="sc">$</span>Age</span>
+<span id="cb54-19"><a href="metabolite-focused-statistical-approaches.html#cb54-19" tabindex="-1"></a>BMI <span class="ot">=</span> data<span class="sc">$</span>PHYSIO<span class="sc">$</span><span class="st">`</span><span class="at">Clinical data</span><span class="st">`</span>[ID_in_X,]<span class="sc">$</span>BMI</span></code></pre></div>
+</div>
+<div id="summary-of-significant-associations-barplot" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Summary of significant associations (Barplot)<a href="metabolite-focused-statistical-approaches.html#summary-of-significant-associations-barplot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We first quantify the number of metabolites significantly associated with living altitude under different thresholds:</p>
+<ul>
+<li><p>Dose-dependent association</p></li>
+<li><p>High altitude &gt; 2500 m</p></li>
+<li><p>High altitude &gt; 5000 m</p></li>
+</ul>
+<p>Both unadjusted and covariate-adjusted models are compared.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="metabolite-focused-statistical-approaches.html#cb55-1" tabindex="-1"></a><span class="co"># Non_adjusted</span></span>
+<span id="cb55-2"><a href="metabolite-focused-statistical-approaches.html#cb55-2" tabindex="-1"></a>p_dose.metabo <span class="ot">=</span> p_2500.metabo <span class="ot">=</span> p_5000.metabo <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb55-3"><a href="metabolite-focused-statistical-approaches.html#cb55-3" tabindex="-1"></a>p_dose.metabo.adj <span class="ot">=</span> p_2500.metabo.adj <span class="ot">=</span> p_5000.metabo.adj <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb55-4"><a href="metabolite-focused-statistical-approaches.html#cb55-4" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(X)){</span>
+<span id="cb55-5"><a href="metabolite-focused-statistical-approaches.html#cb55-5" tabindex="-1"></a>  p_dose.metabo <span class="ot">=</span> <span class="fu">c</span>(p_dose.metabo, <span class="fu">cor.test</span>(<span class="fu">as.numeric</span>(X[,i]), <span class="fu">as.numeric</span>(y))<span class="sc">$</span>p.value)</span>
+<span id="cb55-6"><a href="metabolite-focused-statistical-approaches.html#cb55-6" tabindex="-1"></a>  p_2500.metabo <span class="ot">=</span> <span class="fu">c</span>(p_2500.metabo, <span class="fu">wilcox.test</span>(<span class="fu">as.numeric</span>(X[,i])<span class="sc">~</span><span class="fu">as.numeric</span>(y)<span class="sc">&lt;</span><span class="dv">2</span>)<span class="sc">$</span>p.value)</span>
+<span id="cb55-7"><a href="metabolite-focused-statistical-approaches.html#cb55-7" tabindex="-1"></a>  p_5000.metabo <span class="ot">=</span> <span class="fu">c</span>(p_5000.metabo, <span class="fu">wilcox.test</span>(<span class="fu">as.numeric</span>(X[,i])<span class="sc">~</span><span class="fu">as.numeric</span>(y)<span class="sc">&lt;=</span><span class="dv">2</span>)<span class="sc">$</span>p.value)</span>
+<span id="cb55-8"><a href="metabolite-focused-statistical-approaches.html#cb55-8" tabindex="-1"></a>  </span>
+<span id="cb55-9"><a href="metabolite-focused-statistical-approaches.html#cb55-9" tabindex="-1"></a>  p_dose.metabo.adj <span class="ot">=</span> <span class="fu">c</span>(p_dose.metabo.adj, <span class="fu">cor.test</span>(<span class="fu">lm</span>(<span class="fu">as.numeric</span>(X[,i]) <span class="sc">~</span> age<span class="sc">+</span>BMI)<span class="sc">$</span>residuals, <span class="fu">as.numeric</span>(y))<span class="sc">$</span>p.value)</span>
+<span id="cb55-10"><a href="metabolite-focused-statistical-approaches.html#cb55-10" tabindex="-1"></a>  p_2500.metabo.adj <span class="ot">=</span> <span class="fu">c</span>(p_2500.metabo.adj, <span class="fu">wilcox.test</span>(<span class="fu">lm</span>(<span class="fu">as.numeric</span>(X[,i]) <span class="sc">~</span> age<span class="sc">+</span>BMI)<span class="sc">$</span>residuals <span class="sc">~</span> <span class="fu">as.numeric</span>(y)<span class="sc">&lt;</span><span class="dv">2</span>)<span class="sc">$</span>p.value)</span>
+<span id="cb55-11"><a href="metabolite-focused-statistical-approaches.html#cb55-11" tabindex="-1"></a>  p_5000.metabo.adj <span class="ot">=</span> <span class="fu">c</span>(p_5000.metabo.adj, <span class="fu">wilcox.test</span>(<span class="fu">lm</span>(<span class="fu">as.numeric</span>(X[,i]) <span class="sc">~</span> age<span class="sc">+</span>BMI)<span class="sc">$</span>residuals <span class="sc">~</span> <span class="fu">as.numeric</span>(y)<span class="sc">&lt;=</span><span class="dv">2</span>)<span class="sc">$</span>p.value)</span>
+<span id="cb55-12"><a href="metabolite-focused-statistical-approaches.html#cb55-12" tabindex="-1"></a>}</span>
+<span id="cb55-13"><a href="metabolite-focused-statistical-approaches.html#cb55-13" tabindex="-1"></a></span>
+<span id="cb55-14"><a href="metabolite-focused-statistical-approaches.html#cb55-14" tabindex="-1"></a><span class="co"># Count significant p-values</span></span>
+<span id="cb55-15"><a href="metabolite-focused-statistical-approaches.html#cb55-15" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb55-16"><a href="metabolite-focused-statistical-approaches.html#cb55-16" tabindex="-1"></a>  <span class="fu">sum</span>(p_dose.metabo <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb55-17"><a href="metabolite-focused-statistical-approaches.html#cb55-17" tabindex="-1"></a>  <span class="fu">sum</span>(p_2500.metabo <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb55-18"><a href="metabolite-focused-statistical-approaches.html#cb55-18" tabindex="-1"></a>  <span class="fu">sum</span>(p_5000.metabo <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb55-19"><a href="metabolite-focused-statistical-approaches.html#cb55-19" tabindex="-1"></a>  <span class="fu">sum</span>(p_dose.metabo.adj <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb55-20"><a href="metabolite-focused-statistical-approaches.html#cb55-20" tabindex="-1"></a>  <span class="fu">sum</span>(p_2500.metabo.adj <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb55-21"><a href="metabolite-focused-statistical-approaches.html#cb55-21" tabindex="-1"></a>  <span class="fu">sum</span>(p_5000.metabo.adj <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb55-22"><a href="metabolite-focused-statistical-approaches.html#cb55-22" tabindex="-1"></a>)</span>
+<span id="cb55-23"><a href="metabolite-focused-statistical-approaches.html#cb55-23" tabindex="-1"></a></span>
+<span id="cb55-24"><a href="metabolite-focused-statistical-approaches.html#cb55-24" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(res, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb55-25"><a href="metabolite-focused-statistical-approaches.html#cb55-25" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Non-adjusted&quot;</span>, <span class="st">&quot;Adjusted&quot;</span>)</span>
+<span id="cb55-26"><a href="metabolite-focused-statistical-approaches.html#cb55-26" tabindex="-1"></a><span class="fu">colnames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Dose-dependent&quot;</span>, <span class="st">&quot;&gt;2500m&quot;</span>, <span class="st">&quot;&gt;5000m&quot;</span>)</span>
+<span id="cb55-27"><a href="metabolite-focused-statistical-approaches.html#cb55-27" tabindex="-1"></a></span>
+<span id="cb55-28"><a href="metabolite-focused-statistical-approaches.html#cb55-28" tabindex="-1"></a>cols <span class="ot">=</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">6</span>, <span class="st">&#39;Paired&#39;</span>)</span>
+<span id="cb55-29"><a href="metabolite-focused-statistical-approaches.html#cb55-29" tabindex="-1"></a></span>
+<span id="cb55-30"><a href="metabolite-focused-statistical-approaches.html#cb55-30" tabindex="-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">barplot</span>(mat,</span>
+<span id="cb55-31"><a href="metabolite-focused-statistical-approaches.html#cb55-31" tabindex="-1"></a>              <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(mat) <span class="sc">+</span> <span class="dv">10</span>),</span>
+<span id="cb55-32"><a href="metabolite-focused-statistical-approaches.html#cb55-32" tabindex="-1"></a>              <span class="at">beside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb55-33"><a href="metabolite-focused-statistical-approaches.html#cb55-33" tabindex="-1"></a>              <span class="at">col =</span> cols,</span>
+<span id="cb55-34"><a href="metabolite-focused-statistical-approaches.html#cb55-34" tabindex="-1"></a>              <span class="at">ylab =</span> <span class="st">&quot;Number of metabolites (p &lt; 0.05)&quot;</span>,</span>
+<span id="cb55-35"><a href="metabolite-focused-statistical-approaches.html#cb55-35" tabindex="-1"></a>              <span class="at">main =</span> <span class="st">&quot;Significant associations with living altitude&quot;</span>)</span>
+<span id="cb55-36"><a href="metabolite-focused-statistical-approaches.html#cb55-36" tabindex="-1"></a></span>
+<span id="cb55-37"><a href="metabolite-focused-statistical-approaches.html#cb55-37" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>,</span>
+<span id="cb55-38"><a href="metabolite-focused-statistical-approaches.html#cb55-38" tabindex="-1"></a>       <span class="at">fill =</span> cols,</span>
+<span id="cb55-39"><a href="metabolite-focused-statistical-approaches.html#cb55-39" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Non-adjusted&quot;</span>, <span class="st">&quot;Adjusted for BMI and Age&quot;</span>),</span>
+<span id="cb55-40"><a href="metabolite-focused-statistical-approaches.html#cb55-40" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/barplot-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="overlap-of-significant-metabolites-venn-diagram" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Overlap of significant metabolites (Venn diagram)<a href="metabolite-focused-statistical-approaches.html#overlap-of-significant-metabolites-venn-diagram" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We next evaluate the overlap of significant metabolites across altitude contrasts using adjusted models.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="metabolite-focused-statistical-approaches.html#cb56-1" tabindex="-1"></a><span class="fu">library</span>(VennDiagram)</span>
+<span id="cb56-2"><a href="metabolite-focused-statistical-approaches.html#cb56-2" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="metabolite-focused-statistical-approaches.html#cb56-3" tabindex="-1"></a>met_dose  <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)[p_dose.metabo.adj <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
+<span id="cb56-4"><a href="metabolite-focused-statistical-approaches.html#cb56-4" tabindex="-1"></a>met_2500  <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)[p_2500.metabo.adj <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
+<span id="cb56-5"><a href="metabolite-focused-statistical-approaches.html#cb56-5" tabindex="-1"></a>met_5000  <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)[p_5000.metabo.adj <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
+<span id="cb56-6"><a href="metabolite-focused-statistical-approaches.html#cb56-6" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="metabolite-focused-statistical-approaches.html#cb56-7" tabindex="-1"></a><span class="fu">venn.diagram</span>(</span>
+<span id="cb56-8"><a href="metabolite-focused-statistical-approaches.html#cb56-8" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(</span>
+<span id="cb56-9"><a href="metabolite-focused-statistical-approaches.html#cb56-9" tabindex="-1"></a>    <span class="at">Dose =</span> met_dose,</span>
+<span id="cb56-10"><a href="metabolite-focused-statistical-approaches.html#cb56-10" tabindex="-1"></a>    <span class="st">`</span><span class="at">&gt;2500m</span><span class="st">`</span> <span class="ot">=</span> met_2500,</span>
+<span id="cb56-11"><a href="metabolite-focused-statistical-approaches.html#cb56-11" tabindex="-1"></a>    <span class="st">`</span><span class="at">&gt;5000m</span><span class="st">`</span> <span class="ot">=</span> met_5000</span>
+<span id="cb56-12"><a href="metabolite-focused-statistical-approaches.html#cb56-12" tabindex="-1"></a>  ),</span>
+<span id="cb56-13"><a href="metabolite-focused-statistical-approaches.html#cb56-13" tabindex="-1"></a>  <span class="at">filename =</span> <span class="cn">NULL</span>,</span>
+<span id="cb56-14"><a href="metabolite-focused-statistical-approaches.html#cb56-14" tabindex="-1"></a>  <span class="at">fill =</span> cols[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>)],</span>
+<span id="cb56-15"><a href="metabolite-focused-statistical-approaches.html#cb56-15" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb56-16"><a href="metabolite-focused-statistical-approaches.html#cb56-16" tabindex="-1"></a>  <span class="at">cex =</span> <span class="dv">1</span>,</span>
+<span id="cb56-17"><a href="metabolite-focused-statistical-approaches.html#cb56-17" tabindex="-1"></a>  <span class="at">cat.cex =</span> <span class="dv">1</span>,</span>
+<span id="cb56-18"><a href="metabolite-focused-statistical-approaches.html#cb56-18" tabindex="-1"></a>  <span class="at">cat.dist =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>),</span>
+<span id="cb56-19"><a href="metabolite-focused-statistical-approaches.html#cb56-19" tabindex="-1"></a>  <span class="at">margin =</span> <span class="fl">0.02</span></span>
+<span id="cb56-20"><a href="metabolite-focused-statistical-approaches.html#cb56-20" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-41-1.png" alt="" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="stability-of-associations-bootstrap-confidence-intervals" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Stability of associations (Bootstrap confidence intervals)<a href="metabolite-focused-statistical-approaches.html#stability-of-associations-bootstrap-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To assess robustness, we estimate bootstrap confidence intervals for Pearson correlation coefficients between metabolites and living altitude for metabolites significant in all conditions.</p>
+<p>As you can see on the Venn Diagram, it seems that most metabolite variations are dose-dependent with the living altitude.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="metabolite-focused-statistical-approaches.html#cb57-1" tabindex="-1"></a>all_three <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(intersect, <span class="fu">list</span>(met_dose, met_2500, met_5000))</span>
+<span id="cb57-2"><a href="metabolite-focused-statistical-approaches.html#cb57-2" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="metabolite-focused-statistical-approaches.html#cb57-3" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb57-4"><a href="metabolite-focused-statistical-approaches.html#cb57-4" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="metabolite-focused-statistical-approaches.html#cb57-5" tabindex="-1"></a><span class="cf">for</span> (met <span class="cf">in</span> all_three) {</span>
+<span id="cb57-6"><a href="metabolite-focused-statistical-approaches.html#cb57-6" tabindex="-1"></a>  res_diff <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb57-7"><a href="metabolite-focused-statistical-approaches.html#cb57-7" tabindex="-1"></a>  </span>
+<span id="cb57-8"><a href="metabolite-focused-statistical-approaches.html#cb57-8" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">999</span>) {</span>
+<span id="cb57-9"><a href="metabolite-focused-statistical-approaches.html#cb57-9" tabindex="-1"></a>    bootstrap <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-10"><a href="metabolite-focused-statistical-approaches.html#cb57-10" tabindex="-1"></a>    </span>
+<span id="cb57-11"><a href="metabolite-focused-statistical-approaches.html#cb57-11" tabindex="-1"></a>    ct <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(</span>
+<span id="cb57-12"><a href="metabolite-focused-statistical-approaches.html#cb57-12" tabindex="-1"></a>      <span class="fu">as.numeric</span>(X[bootstrap, met]),</span>
+<span id="cb57-13"><a href="metabolite-focused-statistical-approaches.html#cb57-13" tabindex="-1"></a>      <span class="fu">as.numeric</span>(Y[bootstrap])</span>
+<span id="cb57-14"><a href="metabolite-focused-statistical-approaches.html#cb57-14" tabindex="-1"></a>    )</span>
+<span id="cb57-15"><a href="metabolite-focused-statistical-approaches.html#cb57-15" tabindex="-1"></a>    </span>
+<span id="cb57-16"><a href="metabolite-focused-statistical-approaches.html#cb57-16" tabindex="-1"></a>    res_diff <span class="ot">&lt;-</span> <span class="fu">c</span>(res_diff, ct<span class="sc">$</span>estimate)</span>
+<span id="cb57-17"><a href="metabolite-focused-statistical-approaches.html#cb57-17" tabindex="-1"></a>  }</span>
+<span id="cb57-18"><a href="metabolite-focused-statistical-approaches.html#cb57-18" tabindex="-1"></a>  </span>
+<span id="cb57-19"><a href="metabolite-focused-statistical-approaches.html#cb57-19" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(res, res_diff)</span>
+<span id="cb57-20"><a href="metabolite-focused-statistical-approaches.html#cb57-20" tabindex="-1"></a>}</span>
+<span id="cb57-21"><a href="metabolite-focused-statistical-approaches.html#cb57-21" tabindex="-1"></a></span>
+<span id="cb57-22"><a href="metabolite-focused-statistical-approaches.html#cb57-22" tabindex="-1"></a>low <span class="ot">&lt;-</span> <span class="fu">apply</span>(res, <span class="dv">2</span>, quantile, <span class="fl">0.05</span>)</span>
+<span id="cb57-23"><a href="metabolite-focused-statistical-approaches.html#cb57-23" tabindex="-1"></a>high <span class="ot">&lt;-</span> <span class="fu">apply</span>(res, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>)</span>
+<span id="cb57-24"><a href="metabolite-focused-statistical-approaches.html#cb57-24" tabindex="-1"></a>median_x <span class="ot">&lt;-</span> <span class="fu">apply</span>(res, <span class="dv">2</span>, median)</span>
+<span id="cb57-25"><a href="metabolite-focused-statistical-approaches.html#cb57-25" tabindex="-1"></a></span>
+<span id="cb57-26"><a href="metabolite-focused-statistical-approaches.html#cb57-26" tabindex="-1"></a>res_cor <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">r =</span> median_x, <span class="at">low =</span> low, <span class="at">high =</span> high)</span>
+<span id="cb57-27"><a href="metabolite-focused-statistical-approaches.html#cb57-27" tabindex="-1"></a>res_cor <span class="ot">&lt;-</span> res_cor[<span class="fu">order</span>(res_cor<span class="sc">$</span>r), ]</span>
+<span id="cb57-28"><a href="metabolite-focused-statistical-approaches.html#cb57-28" tabindex="-1"></a></span>
+<span id="cb57-29"><a href="metabolite-focused-statistical-approaches.html#cb57-29" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>))</span>
+<span id="cb57-30"><a href="metabolite-focused-statistical-approaches.html#cb57-30" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq_along</span>(res_cor<span class="sc">$</span>r),</span>
+<span id="cb57-31"><a href="metabolite-focused-statistical-approaches.html#cb57-31" tabindex="-1"></a>     res_cor<span class="sc">$</span>r,</span>
+<span id="cb57-32"><a href="metabolite-focused-statistical-approaches.html#cb57-32" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb57-33"><a href="metabolite-focused-statistical-approaches.html#cb57-33" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb57-34"><a href="metabolite-focused-statistical-approaches.html#cb57-34" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>,</span>
+<span id="cb57-35"><a href="metabolite-focused-statistical-approaches.html#cb57-35" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb57-36"><a href="metabolite-focused-statistical-approaches.html#cb57-36" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Pearson correlation (bootstrap CI)&quot;</span>)</span>
+<span id="cb57-37"><a href="metabolite-focused-statistical-approaches.html#cb57-37" tabindex="-1"></a></span>
+<span id="cb57-38"><a href="metabolite-focused-statistical-approaches.html#cb57-38" tabindex="-1"></a><span class="fu">segments</span>(<span class="fu">seq_along</span>(res_cor<span class="sc">$</span>r),</span>
+<span id="cb57-39"><a href="metabolite-focused-statistical-approaches.html#cb57-39" tabindex="-1"></a>         res_cor<span class="sc">$</span>low,</span>
+<span id="cb57-40"><a href="metabolite-focused-statistical-approaches.html#cb57-40" tabindex="-1"></a>         <span class="fu">seq_along</span>(res_cor<span class="sc">$</span>r),</span>
+<span id="cb57-41"><a href="metabolite-focused-statistical-approaches.html#cb57-41" tabindex="-1"></a>         res_cor<span class="sc">$</span>high,</span>
+<span id="cb57-42"><a href="metabolite-focused-statistical-approaches.html#cb57-42" tabindex="-1"></a>         <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb57-43"><a href="metabolite-focused-statistical-approaches.html#cb57-43" tabindex="-1"></a></span>
+<span id="cb57-44"><a href="metabolite-focused-statistical-approaches.html#cb57-44" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;grey50&quot;</span>)</span>
+<span id="cb57-45"><a href="metabolite-focused-statistical-approaches.html#cb57-45" tabindex="-1"></a></span>
+<span id="cb57-46"><a href="metabolite-focused-statistical-approaches.html#cb57-46" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">seq_along</span>(res_cor<span class="sc">$</span>r),</span>
+<span id="cb57-47"><a href="metabolite-focused-statistical-approaches.html#cb57-47" tabindex="-1"></a>     <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="sc">-</span> <span class="fl">0.1</span>,</span>
+<span id="cb57-48"><a href="metabolite-focused-statistical-approaches.html#cb57-48" tabindex="-1"></a>     <span class="at">labels =</span> all_three[<span class="fu">order</span>(median_x)],</span>
+<span id="cb57-49"><a href="metabolite-focused-statistical-approaches.html#cb57-49" tabindex="-1"></a>     <span class="at">srt =</span> <span class="dv">45</span>,</span>
+<span id="cb57-50"><a href="metabolite-focused-statistical-approaches.html#cb57-50" tabindex="-1"></a>     <span class="at">adj =</span> <span class="dv">1</span>,</span>
+<span id="cb57-51"><a href="metabolite-focused-statistical-approaches.html#cb57-51" tabindex="-1"></a>     <span class="at">xpd =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-42-1.png" alt="" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="interpretation" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> Interpretation<a href="metabolite-focused-statistical-approaches.html#interpretation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We observed an increase in tricarboxylic acid (TCA) cycle intermediates, including aspartate, citrate, and Fumarate, alongside a decrease in deoxycarnitine and L-carnitine, which are key metabolites involved in the transport of fatty acids into mitochondria for <span class="math inline">\(\beta\)</span>-oxidation.</p>
+<p>To further investigate altitude-driven metabolic adaptations, we examined the relationship between L-carnitine and nicotinamide. Nicotinamide, also known as vitamin <span class="math inline">\(B_3\)</span>, plays a central role in cellular metabolism, acting both as a modulator of inflammatory processes and as a precursor of the redox cofactors <span class="math inline">\(NAD^+/NADH\)</span>. Under conditions of reduced oxygen availability, these electron carriers are essential for maintaining redox balance by supporting anaerobic glycolysis. In this process, pyruvate—the end product of glycolysis—is reduced to lactate, thereby regenerating <span class="math inline">\(NAD^+\)</span> and sustaining glycolytic flux.</p>
+<p>Here, we report a significant negative correlation between L-carnitine and nicotinamide (<span class="math inline">\(p\)</span> &lt; 0.05). Consistent with this observation, nicotinamide levels increase with living altitude (<span class="math inline">\(p\)</span> &lt; 0.05).</p>
+<p>Taken together, these findings support a coordinated metabolic shift toward anaerobic energy production in response to high-altitude hypoxia.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="metabolite-focused-statistical-approaches.html#cb58-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> T))</span>
+<span id="cb58-2"><a href="metabolite-focused-statistical-approaches.html#cb58-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb58-3"><a href="metabolite-focused-statistical-approaches.html#cb58-3" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="metabolite-focused-statistical-approaches.html#cb58-4" tabindex="-1"></a><span class="fu">boxplot</span>(X<span class="sc">$</span>ASPARTATE<span class="sc">~</span>y, <span class="at">col =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">axes =</span> F,</span>
+<span id="cb58-5"><a href="metabolite-focused-statistical-approaches.html#cb58-5" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Intensity (normalised)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Aspartate&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb58-6"><a href="metabolite-focused-statistical-approaches.html#cb58-6" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">y =</span> <span class="fu">max</span>(X<span class="sc">$</span>ASPARTATE)<span class="sc">*</span><span class="fl">1.05</span>, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;a,b&quot;</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">xpd=</span><span class="cn">NA</span>)</span>
+<span id="cb58-7"><a href="metabolite-focused-statistical-approaches.html#cb58-7" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb58-8"><a href="metabolite-focused-statistical-approaches.html#cb58-8" tabindex="-1"></a><span class="fu">boxplot</span>(X<span class="sc">$</span>CITRATE<span class="sc">~</span>y, <span class="at">col =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">axes =</span> F,</span>
+<span id="cb58-9"><a href="metabolite-focused-statistical-approaches.html#cb58-9" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Intensity (normalised)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Citrate&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb58-10"><a href="metabolite-focused-statistical-approaches.html#cb58-10" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">y =</span> <span class="fu">max</span>(X<span class="sc">$</span>CITRATE)<span class="sc">*</span><span class="fl">1.05</span>, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;a,b&quot;</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">xpd=</span><span class="cn">NA</span>)</span>
+<span id="cb58-11"><a href="metabolite-focused-statistical-approaches.html#cb58-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb58-12"><a href="metabolite-focused-statistical-approaches.html#cb58-12" tabindex="-1"></a><span class="fu">boxplot</span>(X<span class="sc">$</span>FUMARATE<span class="sc">~</span>y, <span class="at">col =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">axes =</span> F,</span>
+<span id="cb58-13"><a href="metabolite-focused-statistical-approaches.html#cb58-13" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Intensity (normalised)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Fumarate&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb58-14"><a href="metabolite-focused-statistical-approaches.html#cb58-14" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">3</span>), <span class="at">y =</span> <span class="fu">max</span>(X<span class="sc">$</span>FUMARATE)<span class="sc">*</span><span class="fl">1.05</span>, <span class="fu">c</span>(<span class="st">&quot;a,b&quot;</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">xpd=</span><span class="cn">NA</span>)</span>
+<span id="cb58-15"><a href="metabolite-focused-statistical-approaches.html#cb58-15" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb58-16"><a href="metabolite-focused-statistical-approaches.html#cb58-16" tabindex="-1"></a><span class="fu">boxplot</span>(X<span class="sc">$</span>DEOXYCARNITINE<span class="sc">~</span>y, <span class="at">col =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">axes =</span> F,</span>
+<span id="cb58-17"><a href="metabolite-focused-statistical-approaches.html#cb58-17" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Intensity (normalised)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Deoxycarnitine&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb58-18"><a href="metabolite-focused-statistical-approaches.html#cb58-18" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">y =</span> <span class="fu">max</span>(X<span class="sc">$</span>DEOXYCARNITINE)<span class="sc">*</span><span class="fl">1.05</span>, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;a,b&quot;</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">xpd=</span><span class="cn">NA</span>)</span>
+<span id="cb58-19"><a href="metabolite-focused-statistical-approaches.html#cb58-19" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb58-20"><a href="metabolite-focused-statistical-approaches.html#cb58-20" tabindex="-1"></a><span class="fu">boxplot</span>(X<span class="sc">$</span><span class="st">`</span><span class="at">L-CARNITINE</span><span class="st">`</span><span class="sc">~</span>y, <span class="at">col =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">axes =</span> F,</span>
+<span id="cb58-21"><a href="metabolite-focused-statistical-approaches.html#cb58-21" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Intensity (normalised)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;L-carnitine&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb58-22"><a href="metabolite-focused-statistical-approaches.html#cb58-22" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">3</span>), <span class="at">y =</span> <span class="fu">max</span>(X<span class="sc">$</span><span class="st">`</span><span class="at">L-CARNITINE</span><span class="st">`</span>)<span class="sc">*</span><span class="fl">1.05</span>, <span class="fu">c</span>(<span class="st">&quot;a,b&quot;</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">xpd=</span><span class="cn">NA</span>)</span>
+<span id="cb58-23"><a href="metabolite-focused-statistical-approaches.html#cb58-23" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span>
+<span id="cb58-24"><a href="metabolite-focused-statistical-approaches.html#cb58-24" tabindex="-1"></a><span class="fu">boxplot</span>(X<span class="sc">$</span>NICOTINAMIDE<span class="sc">~</span>y, <span class="at">col =</span> paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">&quot;tvthemes::Alexandrite&quot;</span>)[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">axes =</span> F,</span>
+<span id="cb58-25"><a href="metabolite-focused-statistical-approaches.html#cb58-25" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Intensity (normalised)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Nicotinamide&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb58-26"><a href="metabolite-focused-statistical-approaches.html#cb58-26" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">y =</span> <span class="fu">max</span>(X<span class="sc">$</span>NICOTINAMIDE)<span class="sc">*</span><span class="fl">1.05</span>, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">xpd=</span><span class="cn">NA</span>)</span>
+<span id="cb58-27"><a href="metabolite-focused-statistical-approaches.html#cb58-27" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-43-1.png" alt="" width="768" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="redundancy-analysis-and-network.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/main/06-metabolites.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
