@@ -1,0 +1,7 @@
+tidyverse
+vegan
+FactoMineR
+KODAMA
+KEGGREST
+mixOmics
+randomForest
